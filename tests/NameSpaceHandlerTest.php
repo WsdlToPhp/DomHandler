@@ -8,8 +8,7 @@ use WsdlToPhp\DomHandler\Tests\DomHandler\DomDocumentHandlerTest;
 class NameSpaceHandlerTest extends TestCase
 {
     /**
-     * @see \WsdlToPhp\DomHandler\AbstractNodeHandler::getParent()
-     * @return AbstractNodeHandler
+     *
      */
     public function testGetParent()
     {
@@ -20,12 +19,21 @@ class NameSpaceHandlerTest extends TestCase
         $this->assertNull($nameSpaceHandler->getParent());
     }
     /**
-     * @return null|string
+     *
      */
     public function testGetValueNamespace()
     {
         $domDocument = DomDocumentHandlerTest::bingInstance();
 
         $this->assertNull($domDocument->getRootElement()->getAttribute('xmlns:xsi')->getValueNamespace());
+    }
+    /**
+     *
+     */
+    public function testGetValue()
+    {
+        $domDocument = DomDocumentHandlerTest::bingInstance();
+
+        $this->assertSame('http://www.w3.org/2001/XMLSchema-instance', $domDocument->getRootElement()->getAttribute('xmlns:xsi')->getValue());
     }
 }
