@@ -107,6 +107,15 @@ class DomDocumentHandlerTest extends TestCase
     /**
      *
      */
+    public function testGetElementByNameIsNull()
+    {
+        $instance = self::bingInstance();
+
+        $this->assertNull($instance->getElementByName('foo'));
+    }
+    /**
+     *
+     */
     public function testGetElementsByNameAndAttributes()
     {
         $instance = self::bingInstance();
