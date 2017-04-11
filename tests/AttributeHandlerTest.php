@@ -37,6 +37,8 @@ class AttributeHandlerTest extends TestCase
         $this->assertSame('Version', $element->getAttributeValue('name'));
         $this->assertSame('2.2', $element->getAttributeValue('default'));
         $this->assertSame('2.2', $element->getAttributeValue('default', false, true, null));
+        $this->assertSame(2, $element->getAttributeValue('default', false, true, 'int'));
+        $this->assertSame(2.2, $element->getAttributeValue('default', false, true, 'float'));
     }
     /**
      *
