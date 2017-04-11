@@ -141,6 +141,19 @@ class DomDocumentHandlerTest extends TestCase
         $this->assertInstanceOf('\WsdlToPhp\DomHandler\ElementHandler', $part);
     }
     /**
+     *
+     */
+    public function testGetElementByNameAndAttributesContainingString()
+    {
+        $instance = self::bingInstance();
+
+        $part = $instance->getElementByNameAndAttributes('part', array(
+            'name' => 'parameters',
+            'element' => '*:SearchRequest',
+        ));
+        $this->assertInstanceOf('\WsdlToPhp\DomHandler\ElementHandler', $part);
+    }
+    /**
      * @expectedException InvalidArgumentException
      */
     public function testInitRootElementWithException()
