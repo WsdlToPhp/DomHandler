@@ -1,4 +1,4 @@
- <?php
+<?php
 
 namespace WsdlToPhp\DomHandler;
 
@@ -7,7 +7,7 @@ class NameSpaceHandler extends AttributeHandler
     /**
      * @var \DOMNameSpaceNode
      */
-    protected $nodeNameSpace;
+    private $nodeNameSpace;
     /**
      * @param \DOMNameSpaceNode $nameSpaceNode
      * @param AbstractDomDocumentHandler $domDocumentHandler
