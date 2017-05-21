@@ -10,3 +10,4 @@
 DomHandler uses the [decorator design pattern](https://en.wikipedia.org/wiki/Decorator_pattern) in order to ease DOM handling.
 
 The source code has been originally created into the [PackageGenerator](https://github.com/WsdlToPhp/PackageGenerator) project but it felt that it had the possibility to live by itself and to evolve independtly from the PackageGenerator project if necessary.
+
