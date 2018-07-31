@@ -1,9 +1,6 @@
 <?php
 
-namespace WsdlToPhp\DomHandler;
-
-use WsdlToPhp\DomHandler\Tests\TestCase;
-use WsdlToPhp\DomHandler\Tests\DomHandler\DomDocumentHandlerTest;
+namespace WsdlToPhp\DomHandler\Tests;
 
 class NameSpaceHandlerTest extends TestCase
 {
