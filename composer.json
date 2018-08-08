@@ -16,6 +16,10 @@
             "email": "contact@wsdltophp.com",
             "homepage": "https://www.wsdltophp.com",
             "role": "Owner"
+        },
+        {
+            "name": "phordijk",
+            "role": "Contributor"
         }
     ],
     "require": {
@@ -23,6 +27,7 @@
     },
     "require-dev": {
         "friendsofphp/php-cs-fixer": "~2.0",
+        "localheinz/composer-normalize": "^0.8.0",
         "phpunit/phpunit": "^4.8 || ^6.0"
     },
     "config": {
@@ -30,12 +35,17 @@
     },
     "autoload": {
         "psr-4": {
-            "WsdlToPhp\\DomHandler\\": "src",
+            "WsdlToPhp\\DomHandler\\": "src"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
             "WsdlToPhp\\DomHandler\\Tests\\": "tests"
         }
     },
     "scripts": {
         "lint": "vendor/bin/php-cs-fixer fix",
+        "normalize": "normalize",
         "test": "vendor/bin/phpunit"
     },
     "support": {
