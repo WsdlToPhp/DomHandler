@@ -12,4 +12,4 @@ WORKDIR /var/www/html
 
 RUN composer self-update \
     && composer validate \
-    && composer install --prefer-dist --no-scripts --no-progress --no-suggest
+    && composer update --prefer-dist --no-scripts --no-progress --no-suggest
