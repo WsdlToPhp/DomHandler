@@ -27,7 +27,6 @@
     },
     "require-dev": {
         "friendsofphp/php-cs-fixer": "~2.0",
-        "localheinz/composer-normalize": "^0.8.0",
         "phpunit/phpunit": "^4.8 || ^6.0"
     },
     "config": {
@@ -45,7 +44,6 @@
     },
     "scripts": {
         "lint": "vendor/bin/php-cs-fixer fix",
-        "normalize": "normalize",
         "test": "vendor/bin/phpunit"
     },
     "support": {
