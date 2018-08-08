@@ -7,7 +7,7 @@ class NameSpaceHandler extends AttributeHandler
     /**
      * @var \DOMNameSpaceNode
      */
-    private $nodeNameSpace;
+    protected $nodeNameSpace;
     /**
      * @param \DOMNameSpaceNode $nameSpaceNode
      * @param AbstractDomDocumentHandler $domDocumentHandler

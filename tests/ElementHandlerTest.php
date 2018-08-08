@@ -1,8 +1,7 @@
 <?php
 
-namespace WsdlToPhp\DomHandler\Tests\DomHandler;
+namespace WsdlToPhp\DomHandler\Tests;
 
-use WsdlToPhp\DomHandler\Tests\TestCase;
 use WsdlToPhp\DomHandler\AbstractAttributeHandler;
 use WsdlToPhp\DomHandler\AbstractElementHandler;
 
