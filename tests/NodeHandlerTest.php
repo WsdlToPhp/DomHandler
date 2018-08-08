@@ -1,8 +1,6 @@
 <?php
 
-namespace WsdlToPhp\DomHandler\Tests\DomHandler;
-
-use WsdlToPhp\DomHandler\Tests\TestCase;
+namespace WsdlToPhp\DomHandler\Tests;
 
 class NodeHandlerTest extends TestCase
 {
