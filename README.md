@@ -1,8 +1,7 @@
-# WsdlToPhp Package Generator
+# WsdlToPhp Dom Handler
 [![License](https://poser.pugx.org/wsdltophp/domhandler/license)](https://packagist.org/packages/wsdltophp/domhandler)
 [![Latest Stable Version](https://poser.pugx.org/wsdltophp/domhandler/version.png)](https://packagist.org/packages/wsdltophp/domhandler)
 [![Build Status](https://travis-ci.org/WsdlToPhp/DomHandler.svg)](https://travis-ci.org/WsdlToPhp/DomHandler)
-[![PHP 7 ready](http://php7ready.timesplinter.ch/WsdlToPhp/DomHandler/badge.svg)](https://travis-ci.org/WsdlToPhp/DomHandler)
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/WsdlToPhp/DomHandler/badges/quality-score.png)](https://scrutinizer-ci.com/g/WsdlToPhp/DomHandler/)
 [![Code Coverage](https://scrutinizer-ci.com/g/WsdlToPhp/DomHandler/badges/coverage.png)](https://scrutinizer-ci.com/g/WsdlToPhp/DomHandler/)
 [![StyleCI](https://styleci.io/repos/87977980/shield)](https://styleci.io/repos/87977980)
