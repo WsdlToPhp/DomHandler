@@ -28,16 +28,6 @@ class DomDocumentHandlerTest extends TestCase
         return self::$actonInstance;
     }
 
-    public static function eBayInstance(): DomDocumentHandler
-    {
-        if (!isset(self::$ebayInstance)) {
-            $doc = new DOMDocument('1.0', 'utf-8');
-            $doc->load(self::wsdlEbayPath());
-            self::$ebayInstance = new DomDocumentHandler($doc);
-        }
-        return self::$ebayInstance;
-    }
-
     public static function bingInstance(): DomDocumentHandler
     {
         if (!isset(self::$bingInstance)) {
