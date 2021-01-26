@@ -24,12 +24,12 @@ First of all, you need to create your container which you can do using [docker-c
 $ docker-compose up -d --build
 ```
 
-You then have a container named `php_generator` in which you can run `composer` commands and `php cli` commands such as:
+You then have a container named `dom_handler` in which you can run `composer` commands and `php cli` commands such as:
 ```bash
 # install deps in container (using update ensure it does use the composer.lock file if there is any)
-$ docker exec -it php_generator php-7.4 /usr/bin/composer update
+$ docker exec -it dom_handler php-7.4 /usr/bin/composer update
 # run tests in container
-$ docker exec -it php_generator php-7.4 -dmemory_limit=-1 vendor/bin/phpunit
+$ docker exec -it dom_handler php-7.4 -dmemory_limit=-1 vendor/bin/phpunit
 ```
 
 ## Contributing
