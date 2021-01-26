@@ -7,6 +7,7 @@
 [![Build Status](https://travis-ci.org/WsdlToPhp/DomHandler.svg)](https://travis-ci.org/WsdlToPhp/DomHandler)
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/WsdlToPhp/DomHandler/badges/quality-score.png)](https://scrutinizer-ci.com/g/WsdlToPhp/DomHandler/)
 [![Code Coverage](https://scrutinizer-ci.com/g/WsdlToPhp/DomHandler/badges/coverage.png)](https://scrutinizer-ci.com/g/WsdlToPhp/DomHandler/)
+[![Total Downloads](https://poser.pugx.org/wsdltophp/domhandler/downloads)](https://packagist.org/packages/wsdltophp/domhandler)
 [![StyleCI](https://styleci.io/repos/87977980/shield)](https://styleci.io/repos/87977980)
 [![SensioLabsInsight](https://insight.sensiolabs.com/projects/6bac01d7-5243-4682-9264-8166407c8a30/mini.png)](https://insight.sensiolabs.com/projects/6bac01d7-5243-4682-9264-8166407c8a30)
 
@@ -14,10 +15,21 @@ DomHandler uses the [decorator design pattern](https://en.wikipedia.org/wiki/Dec
 
 The source code has been originally created into the [PackageGenerator](https://github.com/WsdlToPhp/PackageGenerator) project but it felt that it had the possibility to live by itself and to evolve independtly from the PackageGenerator project if necessary.
 
-## Testing
+## Testing using [Docker](https://www.docker.com/)
+Thanks to the [Docker image](https://hub.docker.com/r/splitbrain/phpfarm) of [phpfarm](https://github.com/fpoirotte/phpfarm), tests can be run locally under *any* PHP version using the cli:
+- php-7.4
 
+First of all, you need to create your container which you can do using [docker-compose](https://docs.docker.com/compose/) by running the below command line from the root directory of the project:
 ```bash
-# composer test
+$ docker-compose up -d --build
+```
+
+You then have a container named `dom_handler` in which you can run `composer` commands and `php cli` commands such as:
+```bash
+# install deps in container (using update ensure it does use the composer.lock file if there is any)
+$ docker exec -it dom_handler php-7.4 /usr/bin/composer update
+# run tests in container
+$ docker exec -it dom_handler php-7.4 -dmemory_limit=-1 vendor/bin/phpunit
 ```
 
 ## Contributing

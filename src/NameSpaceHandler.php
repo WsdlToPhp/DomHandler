@@ -1,38 +1,28 @@
 <?php
 
+declare(strict_types=1);
+
 namespace WsdlToPhp\DomHandler;
+
+use DOMAttr;
+use DOMNameSpaceNode;
 
 class NameSpaceHandler extends AttributeHandler
 {
-    /**
-     * @var \DOMNameSpaceNode
-     */
-    protected $nodeNameSpace;
-    /**
-     * @param \DOMNameSpaceNode $nameSpaceNode
-     * @param AbstractDomDocumentHandler $domDocumentHandler
-     * @param int $index
-     */
-    public function __construct(\DOMNameSpaceNode $nameSpaceNode, AbstractDomDocumentHandler $domDocumentHandler, $index = -1)
+    protected DOMNameSpaceNode $nodeNameSpace;
+
+    public function __construct(DOMNameSpaceNode $nameSpaceNode, AbstractDomDocumentHandler $domDocumentHandler, int $index = -1)
     {
-        parent::__construct(new \DOMAttr($nameSpaceNode->nodeName, $nameSpaceNode->nodeValue), $domDocumentHandler, $index);
+        parent::__construct(new DOMAttr($nameSpaceNode->nodeName, $nameSpaceNode->nodeValue), $domDocumentHandler, $index);
         $this->nodeNameSpace = $nameSpaceNode;
     }
-    /**
-     * value is always with [http|https]:// so we need to keep the full value
-     * @param bool $withNamespace
-     * @param bool $withinItsType
-     * @param string $asType
-     * @return mixed
-     */
-    public function getValue($withNamespace = false, $withinItsType = true, $asType = null)
+
+    public function getValue(bool $withNamespace = false, bool $withinItsType = true, ?string $asType = self::DEFAULT_VALUE_TYPE)
     {
         return parent::getValue(true, $withinItsType, $asType);
     }
-    /**
-     * @return null|string
-     */
-    public function getValueNamespace()
+
+    public function getValueNamespace(): ?string
     {
         return null;
     }

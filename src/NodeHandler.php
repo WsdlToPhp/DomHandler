@@ -1,8 +1,8 @@
 <?php
 
-namespace WsdlToPhp\DomHandler;
+declare(strict_types=1);
 
-use WsdlToPhp\DomHandler\AbstractNodeHandler;
+namespace WsdlToPhp\DomHandler;
 
 class NodeHandler extends AbstractNodeHandler
 {
