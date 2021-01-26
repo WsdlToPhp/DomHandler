@@ -92,8 +92,12 @@ abstract class AbstractNodeHandler
         return $this->getHandlers($this->getNode()->childNodes);
     }
 
-    private function getHandlers(Traversable $nodes): array
+    private function getHandlers(?Traversable $nodes): array
     {
+        if (is_null($nodes)) {
+            return [];
+        }
+
         $handlers = array();
         foreach ($nodes as $index => $node) {
             if (!is_int($index)) {

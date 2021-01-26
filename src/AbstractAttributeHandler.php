@@ -37,11 +37,6 @@ class AbstractAttributeHandler extends AbstractNodeHandler
 
     const DEFAULT_OCCURRENCE_VALUE = 1;
 
-    public function getNode(): DOMAttr
-    {
-        return parent::getNode();
-    }
-
     public function getAttribute(): DOMAttr
     {
         return $this->getNode();

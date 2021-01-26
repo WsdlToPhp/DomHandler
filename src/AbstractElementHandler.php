@@ -13,11 +13,6 @@ abstract class AbstractElementHandler extends AbstractNodeHandler
         parent::__construct($element, $domDocument, $index);
     }
 
-    public function getNode(): DOMElement
-    {
-        return parent::getNode();
-    }
-
     public function getElement(): DOMElement
     {
         return $this->getNode();

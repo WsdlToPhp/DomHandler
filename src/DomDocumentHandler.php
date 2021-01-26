@@ -25,7 +25,7 @@ class DomDocumentHandler extends AbstractDomDocumentHandler
         return new AttributeHandler($attribute, $domDocument, $index);
     }
 
-    public function getRootElement(): ElementHandler
+    public function getRootElement(): ?ElementHandler
     {
         return $this->rootElement;
     }
