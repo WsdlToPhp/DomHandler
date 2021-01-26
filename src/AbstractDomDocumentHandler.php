@@ -2,105 +2,80 @@
 
 namespace WsdlToPhp\DomHandler;
 
+use DOMAttr;
+use DOMDocument;
+use DOMElement;
+use DOMNameSpaceNode;
+use DOMNode;
+use DOMNodeList;
+use DOMXPath;
+use InvalidArgumentException;
+
 abstract class AbstractDomDocumentHandler
 {
-    /**
-     * @var \DOMDocument
-     */
-    protected $domDocument;
-    /**
-     * @var ElementHandler
-     */
-    protected $rootElement;
-    /**
-     * @param \DOMDocument $domDocument
-     */
-    public function __construct(\DOMDocument $domDocument)
+    protected DOMDocument $domDocument;
+
+    protected ?ElementHandler $rootElement;
+
+    public function __construct(DOMDocument $domDocument)
     {
         $this->domDocument = $domDocument;
         $this->initRootElement();
     }
+
     /**
      * Find valid root node (not a comment, at least a DOMElement node)
-     * @throws \InvalidArgumentException
+     * @throws InvalidArgumentException
      */
     protected function initRootElement()
     {
         if ($this->domDocument->hasChildNodes()) {
             foreach ($this->domDocument->childNodes as $node) {
-                if ($node instanceof \DOMElement) {
+                if ($node instanceof DOMElement) {
                     $this->rootElement = $this->getElementHandler($node, $this);
                     break;
                 }
             }
         } else {
-            throw new \InvalidArgumentException('Document seems to be invalid', __LINE__);
+            throw new InvalidArgumentException('Document seems to be invalid', __LINE__);
         }
     }
-    /**
-     * Return the matching node handler based on current \DomNode type
-     * @param \DOMNode|\DOMNameSpaceNode $node
-     * @param int $index
-     * @return NodeHandler|ElementHandler|AttributeHandler|NameSpaceHandler
-     */
-    public function getHandler($node, $index = -1)
+
+    public function getHandler($node, int $index = -1): AbstractNodeHandler
     {
-        if ($node instanceof \DOMElement) {
+        if ($node instanceof DOMElement) {
             return $this->getElementHandler($node, $this, $index);
-        } elseif ($node instanceof \DOMAttr) {
+        } elseif ($node instanceof DOMAttr) {
             return $this->getAttributeHandler($node, $this, $index);
-        } elseif ($node instanceof \DOMNameSpaceNode) {
+        } elseif ($node instanceof DOMNameSpaceNode) {
             return new NameSpaceHandler($node, $this, $index);
         }
+
         return $this->getNodeHandler($node, $this, $index);
     }
-    /**
-     * @param \DOMNode $node
-     * @param AbstractDomDocumentHandler $domDocument
-     * @param int $index
-     * @return NodeHandler
-     */
-    abstract protected function getNodeHandler(\DOMNode $node, AbstractDomDocumentHandler $domDocument, $index = -1);
-    /**
-     * @param \DOMElement $element
-     * @param AbstractDomDocumentHandler $domDocument
-     * @param int $index
-     * @return ElementHandler
-     */
-    abstract protected function getElementHandler(\DOMElement $element, AbstractDomDocumentHandler $domDocument, $index = -1);
-    /**
-     * @param \DOMAttr $attribute
-     * @param AbstractDomDocumentHandler $domDocument
-     * @param int $index
-     * @return AttributeHandler
-     */
-    abstract protected function getAttributeHandler(\DOMAttr $attribute, AbstractDomDocumentHandler $domDocument, $index = -1);
-    /**
-     * @param string $name
-     * @return NodeHandler
-     */
-    public function getNodeByName($name)
+
+    abstract protected function getNodeHandler(DOMNode $node, AbstractDomDocumentHandler $domDocument, int $index = -1): NodeHandler;
+
+    abstract protected function getElementHandler(DOMElement $element, AbstractDomDocumentHandler $domDocument, int $index = -1): ElementHandler;
+
+    abstract protected function getAttributeHandler(DOMAttr $attribute, AbstractDomDocumentHandler $domDocument, int $index = -1): AttributeHandler;
+
+    public function getNodeByName(string $name): ?NodeHandler
     {
         return $this->domDocument->getElementsByTagName($name)->length > 0 ? $this->getNodeHandler($this->domDocument->getElementsByTagName($name)->item(0), $this) : null;
     }
-    /**
-     * @param string $name
-     * @return ElementHandler
-     */
-    public function getElementByName($name)
+
+    public function getElementByName(string $name): ?ElementHandler
     {
         $node = $this->getNodeByName($name);
-        if ($node instanceof AbstractNodeHandler && $node->getNode() instanceof \DOMElement) {
+        if ($node instanceof AbstractNodeHandler && $node->getNode() instanceof DOMElement) {
             return $this->getElementHandler($node->getNode(), $this);
         }
+
         return null;
     }
-    /**
-     * @param string $name
-     * @param string $checkInstance
-     * @return NodeHandler[]
-     */
-    public function getNodesByName($name, $checkInstance = null)
+
+    public function getNodesByName(string $name, ?string $checkInstance = null): array
     {
         $nodes = array();
         if ($this->domDocument->getElementsByTagName($name)->length > 0) {
@@ -110,61 +85,48 @@ abstract class AbstractDomDocumentHandler
                 }
             }
         }
+
         return $nodes;
     }
-    /**
-     * @param string $name
-     * @return ElementHandler[]
-     */
-    public function getElementsByName($name)
+
+    public function getElementsByName(string $name): array
     {
         return $this->getNodesByName($name, 'DOMElement');
     }
-    /**
-     * @param string $name
-     * @param array $attributes
-     * @param \DOMNode $node
-     * @return ElementHandler[]
-     */
-    public function getElementsByNameAndAttributes($name, array $attributes, \DOMNode $node = null)
+
+    public function getElementsByNameAndAttributes(string $name, array $attributes, ?DOMNode $node = null): array
     {
         $matchingElements = $this->getElementsByName($name);
-        if ((!empty($attributes) || $node instanceof \DOMNode) && !empty($matchingElements)) {
+        if ((!empty($attributes) || $node instanceof DOMNode) && !empty($matchingElements)) {
             $nodes = $this->searchTagsByXpath($name, $attributes, $node);
             if (!empty($nodes)) {
                 $matchingElements = $this->getElementsHandlers($nodes);
             }
         }
+
         return $matchingElements;
     }
-    /**
-     * @param \DOMNodeList $nodeList
-     * @return ElementHandler[]
-     */
-    public function getElementsHandlers(\DOMNodeList $nodeList)
+
+    public function getElementsHandlers(DOMNodeList $nodeList): array
     {
         $nodes = array();
         if (!empty($nodeList)) {
             $index = 0;
             foreach ($nodeList as $node) {
-                if ($node instanceof \DOMElement) {
+                if ($node instanceof DOMElement) {
                     $nodes[] = $this->getElementHandler($node, $this, $index);
                     $index++;
                 }
             }
         }
+
         return $nodes;
     }
-    /**
-     * @param string $name
-     * @param array $attributes
-     * @param \DOMNode $node
-     * @return \DOMNodeList
-     */
-    public function searchTagsByXpath($name, array $attributes, \DOMNode $node = null)
+
+    public function searchTagsByXpath(string $name, array $attributes, ?DOMNode $node = null): DOMNodeList
     {
-        $xpath = new \DOMXPath($this->domDocument);
-        $xQuery = sprintf("%s//*[local-name()='%s']", $node instanceof \DOMNode ? '.' : '', $name);
+        $xpath = new DOMXPath($this->domDocument);
+        $xQuery = sprintf("%s//*[local-name()='%s']", $node instanceof DOMNode ? '.' : '', $name);
         foreach ($attributes as $attributeName => $attributeValue) {
             if (strpos($attributeValue, '*') !== false) {
                 $xQuery .= sprintf("[contains(@%s, '%s')]", $attributeName, str_replace('*', '', $attributeValue));
@@ -172,16 +134,14 @@ abstract class AbstractDomDocumentHandler
                 $xQuery .= sprintf("[@%s='%s']", $attributeName, $attributeValue);
             }
         }
+
         return $xpath->query($xQuery, $node);
     }
-    /**
-     * @param string $name
-     * @param array $attributes
-     * @return null|ElementHandler
-     */
-    public function getElementByNameAndAttributes($name, array $attributes)
+
+    public function getElementByNameAndAttributes(string $name, array $attributes): ?ElementHandler
     {
         $elements = $this->getElementsByNameAndAttributes($name, $attributes);
+
         return empty($elements) ? null : array_shift($elements);
     }
 }

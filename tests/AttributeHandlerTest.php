@@ -1,14 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
 namespace WsdlToPhp\DomHandler\Tests;
 
 use WsdlToPhp\DomHandler\AbstractAttributeHandler;
 
 class AttributeHandlerTest extends TestCase
 {
-    /**
-     *
-     */
     public function testGetName()
     {
         $domDocument = DomDocumentHandlerTest::bingInstance();
@@ -21,9 +20,7 @@ class AttributeHandlerTest extends TestCase
         $this->assertEquals('name', $element->getAttribute('name')->getName());
         $this->assertEquals('default', $element->getAttribute('default')->getName());
     }
-    /**
-     *
-     */
+
     public function testGetValue()
     {
         $domDocument = DomDocumentHandlerTest::bingInstance();
@@ -39,9 +36,7 @@ class AttributeHandlerTest extends TestCase
         $this->assertSame(2, $element->getAttributeValue('default', false, true, 'int'));
         $this->assertSame(2.2, $element->getAttributeValue('default', false, true, 'float'));
     }
-    /**
-     *
-     */
+
     public function testGetValueNamespace()
     {
         $domDocument = DomDocumentHandlerTest::bingInstance();
@@ -74,9 +69,7 @@ class AttributeHandlerTest extends TestCase
             $this->assertSame($namespaces[$index], $element->getAttribute('type')->getValueNamespace());
         }
     }
-    /**
-     *
-     */
+
     public function testGetNamespaceNull()
     {
         $domDocument = DomDocumentHandlerTest::bingInstance();
@@ -86,16 +79,12 @@ class AttributeHandlerTest extends TestCase
 
         $this->assertNull($element->getAttribute(AbstractAttributeHandler::ATTRIBUTE_MIN_OCCURS)->getNamespace());
     }
-    /**
-     *
-     */
+
     public function testGetMaxOccurs()
     {
-        $domDocument = DomDocumentHandlerTest::yandeDirectApiAdGroupsInstance();
+        $domDocument = DomDocumentHandlerTest::yandexDirectApiAdGroupsInstance();
 
-        $element = $domDocument->getElementByName('element', array(
-            'name' => 'CampaignIds',
-        ));
+        $element = $domDocument->getElementByName('element');
 
         $this->assertEquals(AbstractAttributeHandler::VALUE_UNBOUNDED, $element->getAttributeValue(AbstractAttributeHandler::ATTRIBUTE_MAX_OCCURS));
         $this->assertEquals(0, $element->getAttributeValue(AbstractAttributeHandler::ATTRIBUTE_MIN_OCCURS));

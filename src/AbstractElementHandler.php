@@ -1,68 +1,50 @@
 <?php
 
+declare(strict_types=1);
+
 namespace WsdlToPhp\DomHandler;
+
+use DOMElement;
 
 abstract class AbstractElementHandler extends AbstractNodeHandler
 {
-    /**
-     * @param \DOMElement $element
-     * @param AbstractDomDocumentHandler $domDocument
-     * @param int $index
-     */
-    public function __construct(\DOMElement $element, AbstractDomDocumentHandler $domDocument, $index = -1)
+    public function __construct(DOMElement $element, AbstractDomDocumentHandler $domDocument, int $index = -1)
     {
         parent::__construct($element, $domDocument, $index);
     }
-    /**
-     * @see \WsdlToPhp\DomHandler\AbstractNodeHandler::getNode()
-     * @return \DOMElement
-     */
-    public function getNode()
+
+    public function getNode(): DOMElement
     {
         return parent::getNode();
     }
-    /**
-     * Alias to getNode()
-     * @return \DOMElement
-     */
-    public function getElement()
+
+    public function getElement(): DOMElement
     {
         return $this->getNode();
     }
-    /**
-     * @param string $name
-     * @return boolean
-     */
-    public function hasAttribute($name)
+
+    public function hasAttribute(string $name): bool
     {
         return $this->getElement()->hasAttribute($name);
     }
-    /**
-     * @param string $name
-     * @return AttributeHandler|null
-     */
-    public function getAttribute($name)
+
+    public function getAttribute(string $name): ?AttributeHandler
     {
         return $this->hasAttribute($name) ? $this->getDomDocumentHandler()->getHandler($this->getNode()->getAttributeNode($name)) : null;
     }
-    /**
-     * @param string $name
-     * @return mixed
-     */
-    public function getAttributeValue($name, $withNamespace = false, $withinItsType = true, $asType = AbstractAttributeHandler::DEFAULT_VALUE_TYPE)
+
+    public function getAttributeValue(string $name, bool $withNamespace = false, bool $withinItsType = true, ?string $asType = AbstractAttributeHandler::DEFAULT_VALUE_TYPE)
     {
         $value = null;
         $attribute = $this->getAttribute($name);
         if ($attribute instanceof AbstractAttributeHandler) {
             $value = $attribute->getValue($withNamespace, $withinItsType, $asType);
         }
+
         return $value;
     }
-    /**
-     * @param string $name
-     * @return NodeHandler[]|ElementHandler[]
-     */
-    public function getChildrenByName($name)
+
+    public function getChildrenByName(string $name): array
     {
         $children = array();
         if ($this->hasChildren()) {
@@ -70,38 +52,32 @@ abstract class AbstractElementHandler extends AbstractNodeHandler
                 $children[] = $this->getDomDocumentHandler()->getHandler($node, $index);
             }
         }
+
         return $children;
     }
-    /**
-     * @return ElementHandler[]
-     */
-    public function getElementChildren()
+
+    public function getElementChildren(): array
     {
         $children = array();
         if ($this->hasChildren()) {
             $children = $this->getDomDocumentHandler()->getElementsHandlers($this->getChildNodes());
         }
+
         return $children;
     }
-    /**
-     * @param string $name
-     * @param array $attributes
-     * @return ElementHandler[]
-     */
-    public function getChildrenByNameAndAttributes($name, array $attributes)
+
+    public function getChildrenByNameAndAttributes(string $name, array $attributes): array
     {
         return $this->getDomDocumentHandler()->getElementsByNameAndAttributes($name, $attributes, $this->getNode());
     }
-    /**
-     * @param string $name
-     * @param array $attributes
-     * @return ElementHandler|null
-     */
-    public function getChildByNameAndAttributes($name, array $attributes)
+
+    public function getChildByNameAndAttributes(string $name, array $attributes): ?ElementHandler
     {
         $children = $this->getChildrenByNameAndAttributes($name, $attributes);
+
         return empty($children) ? null : array_shift($children);
     }
+
     /**
      * Info at {@link https://www.w3.org/TR/xmlschema-0/#OccurrenceConstraints}
      * @return mixed
@@ -109,14 +85,16 @@ abstract class AbstractElementHandler extends AbstractNodeHandler
     public function getMaxOccurs()
     {
         $maxOccurs = $this->getAttributeValue(AbstractAttributeHandler::ATTRIBUTE_MAX_OCCURS);
-        if ($maxOccurs === AbstractAttributeHandler::VALUE_UNBOUNDED) {
+        if (AbstractAttributeHandler::VALUE_UNBOUNDED === $maxOccurs) {
             return $maxOccurs;
         }
         if (!is_numeric($maxOccurs)) {
-            return AbstractAttributeHandler::DEFAULT_OCCURENCE_VALUE;
+            return AbstractAttributeHandler::DEFAULT_OCCURRENCE_VALUE;
         }
+
         return (int) $maxOccurs;
     }
+
     /**
      * Info at {@link https://www.w3.org/TR/xmlschema-0/#OccurrenceConstraints}
      * @return int
@@ -125,54 +103,61 @@ abstract class AbstractElementHandler extends AbstractNodeHandler
     {
         $minOccurs = $this->getAttributeValue(AbstractAttributeHandler::ATTRIBUTE_MIN_OCCURS);
         if (!is_numeric($minOccurs)) {
-            return AbstractAttributeHandler::DEFAULT_OCCURENCE_VALUE;
+            return AbstractAttributeHandler::DEFAULT_OCCURRENCE_VALUE;
         }
+
         return (int) $minOccurs;
     }
+
     /**
      * Info at {@link http://www.w3schools.com/xml/el_element.asp}
      * @return bool
      */
-    public function getNillable()
+    public function getNillable(): bool
     {
         return (bool) $this->getAttributeValue(AbstractAttributeHandler::ATTRIBUTE_NILLABLE, false, true, 'bool');
     }
+
     /**
      * Info at {@link https://www.w3.org/TR/xmlschema-0/#OccurrenceConstraints}
      * @return bool
      */
-    public function canOccurSeveralTimes()
+    public function canOccurSeveralTimes(): bool
     {
-        return ($this->getMinOccurs() > 1) || ($this->getMaxOccurs() > 1) || ($this->getMaxOccurs() === AbstractAttributeHandler::VALUE_UNBOUNDED);
+        return (1 < $this->getMinOccurs()) || (1 < $this->getMaxOccurs()) || (AbstractAttributeHandler::VALUE_UNBOUNDED === $this->getMaxOccurs());
     }
+
     /**
      * Info at {@link https://www.w3.org/TR/xmlschema-0/#OccurrenceConstraints}
      * @return bool
      */
-    public function canOccurOnlyOnce()
+    public function canOccurOnlyOnce(): bool
     {
-        return $this->getMaxOccurs() === 1;
+        return 1 === $this->getMaxOccurs();
     }
+
     /**
      * Info at {@link https://www.w3.org/TR/xmlschema-0/#OccurrenceConstraints}
      * @return bool
      */
-    public function isOptional()
+    public function isOptional(): bool
     {
-        return $this->getMinOccurs() === 0;
+        return 0 === $this->getMinOccurs();
     }
+
     /**
      * Info at {@link https://www.w3.org/TR/xmlschema-0/#OccurrenceConstraints}
      * @return bool
      */
-    public function isRequired()
+    public function isRequired(): bool
     {
-        return $this->getMinOccurs() >= 1;
+        return 1 <= $this->getMinOccurs();
     }
+
     /**
      * @return bool
      */
-    public function isRemovable()
+    public function isRemovable(): bool
     {
         return $this->isOptional() && $this->getNillable();
     }

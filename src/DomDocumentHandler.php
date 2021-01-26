@@ -1,48 +1,31 @@
 <?php
 
+declare(strict_types=1);
+
 namespace WsdlToPhp\DomHandler;
 
-use WsdlToPhp\DomHandler\AbstractDomDocumentHandler;
+use DOMAttr;
+use DOMElement;
+use DOMNode;
 
 class DomDocumentHandler extends AbstractDomDocumentHandler
 {
-    /**
-     * @param \DOMNode $node
-     * @param \WsdlToPhp\DomHandler\AbstractDomDocumentHandler $domDocument
-     * @param int $index
-     * @return NodeHandler
-     * @see \WsdlToPhp\DomHandler\AbstractDomDocumentHandler::getNodeHandler()
-     */
-    protected function getNodeHandler(\DOMNode $node, AbstractDomDocumentHandler $domDocument, $index = -1)
+    protected function getNodeHandler(DOMNode $node, AbstractDomDocumentHandler $domDocument, int $index = -1): NodeHandler
     {
         return new NodeHandler($node, $domDocument, $index);
     }
-    /**
-     * @param \DOMElement $element
-     * @param \WsdlToPhp\DomHandler\AbstractDomDocumentHandler $domDocument
-     * @param int $index
-     * @return ElementHandler
-     * @see \WsdlToPhp\DomHandler\AbstractDomDocumentHandler::getNodeHandler()
-     */
-    protected function getElementHandler(\DOMElement $element, AbstractDomDocumentHandler $domDocument, $index = -1)
+
+    protected function getElementHandler(DOMElement $element, AbstractDomDocumentHandler $domDocument, int $index = -1): ElementHandler
     {
         return new ElementHandler($element, $domDocument, $index);
     }
-    /**
-     * @param \DOMAttr $attribute
-     * @param \WsdlToPhp\DomHandler\AbstractDomDocumentHandler $domDocument
-     * @param int $index
-     * @return AttributeHandler
-     * @see \WsdlToPhp\DomHandler\AbstractDomDocumentHandler::getAttributeHandler()
-     */
-    protected function getAttributeHandler(\DOMAttr $attribute, AbstractDomDocumentHandler $domDocument, $index = -1)
+
+    protected function getAttributeHandler(DOMAttr $attribute, AbstractDomDocumentHandler $domDocument, int $index = -1): AttributeHandler
     {
         return new AttributeHandler($attribute, $domDocument, $index);
     }
-    /**
-     * @return ElementHandler
-     */
-    public function getRootElement()
+
+    public function getRootElement(): ElementHandler
     {
         return $this->rootElement;
     }

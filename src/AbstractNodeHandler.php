@@ -1,135 +1,111 @@
 <?php
 
+declare(strict_types=1);
+
 namespace WsdlToPhp\DomHandler;
+
+use DOMNode;
+use DOMNodeList;
+use Traversable;
 
 abstract class AbstractNodeHandler
 {
-    /**
-     * @var \DOMNode
-     */
-    protected $node;
-    /**
-     * @var int
-     */
-    protected $index;
-    /**
-     * @var AbstractDomDocumentHandler
-     */
-    protected $domDocumentHandler;
-    /**
-     * AbstractNodeHandler constructor.
-     * @param \DOMNode $node
-     * @param AbstractDomDocumentHandler $domDocumentHandler
-     * @param int $index
-     */
-    public function __construct(\DOMNode $node, AbstractDomDocumentHandler $domDocumentHandler, $index = 0)
+    protected DOMNode $node;
+
+    protected int $index;
+
+    protected AbstractDomDocumentHandler $domDocumentHandler;
+
+    public function __construct(DOMNode $node, AbstractDomDocumentHandler $domDocumentHandler, int $index = 0)
     {
         $this->node = $node;
         $this->index = $index;
         $this->domDocumentHandler = $domDocumentHandler;
     }
-    /**
-     * @return \DOMNode
-     */
-    public function getNode()
+
+    public function getNode(): DOMNode
     {
         return $this->node;
     }
-    /**
-     * @return \DOMNodeList
-     */
-    public function getChildNodes()
+
+    public function getChildNodes(): DOMNodeList
     {
         return $this->getNode()->childNodes;
     }
-    /**
-     * @return AbstractNodeHandler
-     */
-    public function getParent()
+
+    public function getParent(): ?AbstractNodeHandler
     {
-        if ($this->getNode()->parentNode instanceof \DOMNode) {
+        if ($this->getNode()->parentNode instanceof DOMNode) {
             return $this->getDomDocumentHandler()->getHandler($this->getNode()->parentNode);
         }
+
         return null;
     }
-    /**
-     * @return int
-     */
-    public function getIndex()
+
+    public function getIndex(): int
     {
         return $this->index;
     }
-    /**
-     * @return AbstractDomDocumentHandler
-     */
-    public function getDomDocumentHandler()
+
+    public function getDomDocumentHandler(): AbstractDomDocumentHandler
     {
         return $this->domDocumentHandler;
     }
-    /**
-     * name without namespace
-     * @return string
-     */
-    public function getName()
+
+    public function getName(): string
     {
         $name = $this->getNode()->nodeName;
-        if (strpos($name, ':') !== false) {
+        if (false !== strpos($name, ':')) {
             $name = implode('', array_slice(explode(':', $name), -1, 1));
         }
+
         return $name;
     }
-    /**
-     * namespace
-     * @return string|null
-     */
-    public function getNamespace()
+
+    public function getNamespace(): ?string
     {
         $name = $this->getNode()->nodeName;
-        if (strpos($name, ':') !== false) {
+        if (false !== strpos($name, ':')) {
             return implode('', array_slice(explode(':', $name), 0, -1));
         }
+
         return null;
     }
-    /**
-     * @return boolean
-     */
-    public function hasAttributes()
+
+    public function hasAttributes(): bool
     {
         return $this->getNode()->hasAttributes();
     }
-    /**
-     * @return AttributeHandler[]
-     */
-    public function getAttributes()
+
+    public function getAttributes(): array
     {
         return $this->getHandlers($this->getNode()->attributes);
     }
-    /**
-     * @return boolean
-     */
-    public function hasChildren()
+
+    public function hasChildren(): bool
     {
         return $this->getNode()->hasChildNodes();
     }
-    /**
-     * @return ElementHandler[]|NodeHandler[]
-     */
-    public function getChildren()
+
+    public function getChildren(): array
     {
         return $this->getHandlers($this->getNode()->childNodes);
     }
-    /**
-     * @param \Traversable $nodes
-     * @return NodeHandler[]|ElementHandler[]|AttributeHandler[]|NameSpaceHandler[]
-     */
-    private function getHandlers(\Traversable $nodes)
+
+    private function getHandlers(Traversable $nodes): array
     {
         $handlers = array();
         foreach ($nodes as $index => $node) {
+            if (!is_int($index)) {
+                continue;
+            }
+
             $handlers[] = $this->getDomDocumentHandler()->getHandler($node, $index);
         }
+
         return $handlers;
     }
+
     /**
      * @return mixed
      */
@@ -148,6 +124,7 @@ abstract class AbstractNodeHandler
         $nodeValue = preg_replace('[\s+]', ' ', $nodeValue);
         return $nodeValue;
     }
+
     /**
      * Alias for AbstractNodeHandler::getNodeValue()
      * @return mixed
@@ -156,10 +133,8 @@ abstract class AbstractNodeHandler
     {
         return $this->getNodeValue();
     }
-    /**
-     * @return null|string
-     */
-    public function getValueNamespace()
+
+    public function getValueNamespace(): ?string
     {
         return null;
     }

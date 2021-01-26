@@ -1,11 +1,10 @@
 version: '3.4'
 
 services:
-    php:
-        build:
-            context: .
-            dockerfile: .docker/Dockerfile
-            target: dom_handler_php
-        volumes:
-            - .:/var/www/html:rw
-        container_name: dom_handler
+  php:
+    build:
+      context: .
+      dockerfile: .docker/Dockerfile
+    volumes:
+      - .:/var/www:rw
+    container_name: dom_handler

@@ -5,7 +5,7 @@ $finder = PhpCsFixer\Finder::create()
     ->in(__DIR__);
 
 return PhpCsFixer\Config::create()
-	->setUsingCache(false)
+    ->setUsingCache(false)
     ->setRules(array(
         '@PSR2' => true,
         'binary_operator_spaces' => true,
@@ -13,5 +13,5 @@ return PhpCsFixer\Config::create()
         'ternary_operator_spaces' => true,
         'cast_spaces' => true,
         'trailing_comma_in_multiline_array' => true
-	))
+    ))
     ->setFinder($finder);
