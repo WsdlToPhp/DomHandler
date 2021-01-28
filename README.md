@@ -4,7 +4,7 @@
 
 [![License](https://poser.pugx.org/wsdltophp/domhandler/license)](https://packagist.org/packages/wsdltophp/domhandler)
 [![Latest Stable Version](https://poser.pugx.org/wsdltophp/domhandler/version.png)](https://packagist.org/packages/wsdltophp/domhandler)
-[![Build Status](https://travis-ci.org/WsdlToPhp/DomHandler.svg)](https://travis-ci.org/WsdlToPhp/DomHandler)
+[![Build Status](https://travis-ci.com/WsdlToPhp/DomHandler.svg)](https://travis-ci.com/github/WsdlToPhp/DomHandler)
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/WsdlToPhp/DomHandler/badges/quality-score.png)](https://scrutinizer-ci.com/g/WsdlToPhp/DomHandler/)
 [![Code Coverage](https://scrutinizer-ci.com/g/WsdlToPhp/DomHandler/badges/coverage.png)](https://scrutinizer-ci.com/g/WsdlToPhp/DomHandler/)
 [![Total Downloads](https://poser.pugx.org/wsdltophp/domhandler/downloads)](https://packagist.org/packages/wsdltophp/domhandler)
