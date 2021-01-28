@@ -1,5 +1,8 @@
 # CHANGELOG
 
+## 2.0.1 - 2021/01/28
+- Minor readme and Travis CI updates
+
 ## 2.0.0 - 2021/01/26
 - use `splitbrain/phpfarm:jessie` as Docker image and fix docker image settings
 - Code requires PHP >= 7.4
