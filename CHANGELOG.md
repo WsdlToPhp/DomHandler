@@ -1,5 +1,8 @@
 # CHANGELOG
 
+## 2.0.2 - 2021/01/30
+- issue #2 - DOMXPath::query(): Node From Wrong Document
+
 ## 2.0.1 - 2021/01/28
 - Minor readme and Travis CI updates
 
