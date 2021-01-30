@@ -80,7 +80,7 @@ abstract class AbstractDomDocumentHandler
         $nodes = array();
         if ($this->domDocument->getElementsByTagName($name)->length > 0) {
             foreach ($this->domDocument->getElementsByTagName($name) as $node) {
-                if ($checkInstance === null || $node instanceof $checkInstance) {
+                if (is_null($checkInstance) || $node instanceof $checkInstance) {
                     $nodes[] = $this->getHandler($node, count($nodes));
                 }
             }
@@ -91,7 +91,7 @@ abstract class AbstractDomDocumentHandler
 
     public function getElementsByName(string $name): array
     {
-        return $this->getNodesByName($name, 'DOMElement');
+        return $this->getNodesByName($name, DOMElement::class);
     }
 
     public function getElementsByNameAndAttributes(string $name, array $attributes, ?DOMNode $node = null): array
@@ -99,6 +99,7 @@ abstract class AbstractDomDocumentHandler
         $matchingElements = $this->getElementsByName($name);
         if ((!empty($attributes) || $node instanceof DOMNode) && !empty($matchingElements)) {
             $nodes = $this->searchTagsByXpath($name, $attributes, $node);
+
             if (!empty($nodes)) {
                 $matchingElements = $this->getElementsHandlers($nodes);
             }
@@ -125,7 +126,7 @@ abstract class AbstractDomDocumentHandler
 
     public function searchTagsByXpath(string $name, array $attributes, ?DOMNode $node = null): DOMNodeList
     {
-        $xpath = new DOMXPath($this->domDocument);
+        $xpath = new DOMXPath($node ? $node->ownerDocument : $this->domDocument);
         $xQuery = sprintf("%s//*[local-name()='%s']", $node instanceof DOMNode ? '.' : '', $name);
         foreach ($attributes as $attributeName => $attributeValue) {
             if (strpos($attributeValue, '*') !== false) {
@@ -142,6 +143,6 @@ abstract class AbstractDomDocumentHandler
     {
         $elements = $this->getElementsByNameAndAttributes($name, $attributes);
 
-        return empty($elements) ? null : array_shift($elements);
+        return array_shift($elements);
     }
 }

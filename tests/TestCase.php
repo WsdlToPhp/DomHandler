@@ -33,6 +33,11 @@ abstract class TestCase extends PHPUnitFrameworkTestCase
         return __DIR__ . '/resources/directapi/adgroups.wsdl';
     }
 
+    public static function wsdlYandexDirectApiGeneralPath(): string
+    {
+        return __DIR__ . '/resources/directapi/general.xsd';
+    }
+
     public static function wsdlYandexDirectApiLivePath(): string
     {
         return __DIR__ . '/resources/directapi/live.wsdl';

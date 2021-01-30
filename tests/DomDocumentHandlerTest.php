@@ -17,6 +17,7 @@ class DomDocumentHandlerTest extends TestCase
     protected static ?DomDocumentHandler $bingInstance;
     protected static ?DomDocumentHandler $emptyInstance;
     protected static ?DomDocumentHandler $yandexDirectApiAdGroupsInstance;
+    protected static ?DomDocumentHandler $yandexDirectApiGeneralInstance;
 
     public static function actonInstance(): DomDocumentHandler
     {
@@ -56,6 +57,16 @@ class DomDocumentHandlerTest extends TestCase
             self::$yandexDirectApiAdGroupsInstance = new DomDocumentHandler($doc);
         }
         return self::$yandexDirectApiAdGroupsInstance;
+    }
+
+    public static function yandexDirectApiGeneralInstance(): DomDocumentHandler
+    {
+        if (!isset(self::$yandexDirectApiGeneralInstance)) {
+            $doc = new DOMDocument('1.0', 'utf-8');
+            $doc->load(self::wsdlYandexDirectApiGeneralPath());
+            self::$yandexDirectApiGeneralInstance = new DomDocumentHandler($doc);
+        }
+        return self::$yandexDirectApiGeneralInstance;
     }
 
     public function testGetNodeByName()
@@ -101,6 +112,21 @@ class DomDocumentHandlerTest extends TestCase
         ));
         $this->assertNotEmpty($parts);
         $this->assertContainsOnlyInstancesOf(ElementHandler::class, $parts);
+    }
+
+    public function testGetElementsByNameAndAttributesFromDomNode()
+    {
+        $instance = self::yandexDirectApiAdGroupsInstance();
+        $xsd = self::yandexDirectApiGeneralInstance();
+
+        $elements = $instance->getElementsByNameAndAttributes('element', array(
+            'minOccurs' => 1,
+            'maxOccurs' => 1,
+        ), $xsd->getElementByNameAndAttributes('complexType', [
+            'name' => 'ExceptionNotification',
+        ])->getNode());
+        $this->assertCount(2, $elements);
+        $this->assertContainsOnlyInstancesOf(ElementHandler::class, $elements);
     }
 
     public function testGetElementByNameAndAttributes()
