@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace WsdlToPhp\DomHandler\Tests;
 
+use WsdlToPhp\DomHandler\AbstractAttributeHandler;
 use WsdlToPhp\DomHandler\AbstractNodeHandler;
 
 class NodeHandlerTest extends TestCase
@@ -57,6 +58,7 @@ class NodeHandlerTest extends TestCase
         $this->assertContainsOnlyInstancesOf(AbstractAttributeHandler::class, $schema->getAttributes());
         $this->assertContainsOnlyInstancesOf(AbstractAttributeHandler::class, $element->getAttributes());
         $this->assertEmpty($sequence->getAttributes());
+        $this->assertCount(2, $schema->getAttributes());
     }
 
     public function testHasChildren()
