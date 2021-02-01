@@ -99,12 +99,9 @@ abstract class AbstractNodeHandler
         }
 
         $handlers = array();
-        foreach ($nodes as $index => $node) {
-            if (!is_int($index)) {
-                continue;
-            }
-
-            $handlers[] = $this->getDomDocumentHandler()->getHandler($node, $index);
+        $index = 0;
+        foreach ($nodes as $node) {
+            $handlers[] = $this->getDomDocumentHandler()->getHandler($node, $index++);
         }
 
         return $handlers;
