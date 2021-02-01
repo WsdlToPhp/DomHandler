@@ -1,5 +1,8 @@
 # CHANGELOG
 
+## 2.0.3 - 2021/02/01
+- issue #3 - getAttributes returns an empty array
+
 ## 2.0.2 - 2021/01/30
 - issue #2 - DOMXPath::query(): Node From Wrong Document
 
