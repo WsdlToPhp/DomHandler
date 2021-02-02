@@ -8,7 +8,7 @@ use WsdlToPhp\DomHandler\AbstractAttributeHandler;
 
 /**
  * @internal
- * @coversNothing
+ * @coversDefaultClass
  */
 class AttributeHandlerTest extends TestCase
 {

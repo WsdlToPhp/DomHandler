@@ -9,7 +9,7 @@ use WsdlToPhp\DomHandler\AbstractNodeHandler;
 
 /**
  * @internal
- * @coversNothing
+ * @coversDefaultClass
  */
 class NodeHandlerTest extends TestCase
 {

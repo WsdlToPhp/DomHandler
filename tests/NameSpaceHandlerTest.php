@@ -6,7 +6,7 @@ namespace WsdlToPhp\DomHandler\Tests;
 
 /**
  * @internal
- * @coversNothing
+ * @coversDefaultClass
  */
 class NameSpaceHandlerTest extends TestCase
 {

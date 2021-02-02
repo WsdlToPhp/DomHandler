@@ -12,7 +12,7 @@ use WsdlToPhp\DomHandler\NodeHandler;
 
 /**
  * @internal
- * @coversNothing
+ * @coversDefaultClass
  */
 class DomDocumentHandlerTest extends TestCase
 {

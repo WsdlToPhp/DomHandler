@@ -11,7 +11,7 @@ use WsdlToPhp\DomHandler\ElementHandler;
 
 /**
  * @internal
- * @coversNothing
+ * @coversDefaultClass
  */
 class ElementHandlerTest extends TestCase
 {
