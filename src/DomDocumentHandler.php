@@ -10,6 +10,11 @@ use DOMNode;
 
 class DomDocumentHandler extends AbstractDomDocumentHandler
 {
+    public function getRootElement(): ?ElementHandler
+    {
+        return $this->rootElement;
+    }
+
     protected function getNodeHandler(DOMNode $node, AbstractDomDocumentHandler $domDocument, int $index = -1): NodeHandler
     {
         return new NodeHandler($node, $domDocument, $index);
@@ -23,10 +28,5 @@ class DomDocumentHandler extends AbstractDomDocumentHandler
     protected function getAttributeHandler(DOMAttr $attribute, AbstractDomDocumentHandler $domDocument, int $index = -1): AttributeHandler
     {
         return new AttributeHandler($attribute, $domDocument, $index);
-    }
-
-    public function getRootElement(): ?ElementHandler
-    {
-        return $this->rootElement;
     }
 }

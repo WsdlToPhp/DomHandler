@@ -23,42 +23,20 @@ abstract class AbstractDomDocumentHandler
         $this->initRootElement();
     }
 
-    /**
-     * Find valid root node (not a comment, at least a DOMElement node)
-     * @throws InvalidArgumentException
-     */
-    protected function initRootElement()
-    {
-        if ($this->domDocument->hasChildNodes()) {
-            foreach ($this->domDocument->childNodes as $node) {
-                if ($node instanceof DOMElement) {
-                    $this->rootElement = $this->getElementHandler($node, $this);
-                    break;
-                }
-            }
-        } else {
-            throw new InvalidArgumentException('Document seems to be invalid', __LINE__);
-        }
-    }
-
     public function getHandler($node, int $index = -1): AbstractNodeHandler
     {
         if ($node instanceof DOMElement) {
             return $this->getElementHandler($node, $this, $index);
-        } elseif ($node instanceof DOMAttr) {
+        }
+        if ($node instanceof DOMAttr) {
             return $this->getAttributeHandler($node, $this, $index);
-        } elseif ($node instanceof DOMNameSpaceNode) {
+        }
+        if ($node instanceof DOMNameSpaceNode) {
             return new NameSpaceHandler($node, $this, $index);
         }
 
         return $this->getNodeHandler($node, $this, $index);
     }
-
-    abstract protected function getNodeHandler(DOMNode $node, AbstractDomDocumentHandler $domDocument, int $index = -1): NodeHandler;
-
-    abstract protected function getElementHandler(DOMElement $element, AbstractDomDocumentHandler $domDocument, int $index = -1): ElementHandler;
-
-    abstract protected function getAttributeHandler(DOMAttr $attribute, AbstractDomDocumentHandler $domDocument, int $index = -1): AttributeHandler;
 
     public function getNodeByName(string $name): ?NodeHandler
     {
@@ -77,7 +55,7 @@ abstract class AbstractDomDocumentHandler
 
     public function getNodesByName(string $name, ?string $checkInstance = null): array
     {
-        $nodes = array();
+        $nodes = [];
         if ($this->domDocument->getElementsByTagName($name)->length > 0) {
             foreach ($this->domDocument->getElementsByTagName($name) as $node) {
                 if (is_null($checkInstance) || $node instanceof $checkInstance) {
@@ -110,13 +88,13 @@ abstract class AbstractDomDocumentHandler
 
     public function getElementsHandlers(DOMNodeList $nodeList): array
     {
-        $nodes = array();
+        $nodes = [];
         if (!empty($nodeList)) {
             $index = 0;
             foreach ($nodeList as $node) {
                 if ($node instanceof DOMElement) {
                     $nodes[] = $this->getElementHandler($node, $this, $index);
-                    $index++;
+                    ++$index;
                 }
             }
         }
@@ -129,7 +107,7 @@ abstract class AbstractDomDocumentHandler
         $xpath = new DOMXPath($node ? $node->ownerDocument : $this->domDocument);
         $xQuery = sprintf("%s//*[local-name()='%s']", $node instanceof DOMNode ? '.' : '', $name);
         foreach ($attributes as $attributeName => $attributeValue) {
-            if (strpos($attributeValue, '*') !== false) {
+            if (false !== strpos($attributeValue, '*')) {
                 $xQuery .= sprintf("[contains(@%s, '%s')]", $attributeName, str_replace('*', '', $attributeValue));
             } else {
                 $xQuery .= sprintf("[@%s='%s']", $attributeName, $attributeValue);
@@ -145,4 +123,30 @@ abstract class AbstractDomDocumentHandler
 
         return array_shift($elements);
     }
+
+    /**
+     * Find valid root node (not a comment, at least a DOMElement node).
+     *
+     * @throws InvalidArgumentException
+     */
+    protected function initRootElement()
+    {
+        if ($this->domDocument->hasChildNodes()) {
+            foreach ($this->domDocument->childNodes as $node) {
+                if ($node instanceof DOMElement) {
+                    $this->rootElement = $this->getElementHandler($node, $this);
+
+                    break;
+                }
+            }
+        } else {
+            throw new InvalidArgumentException('Document seems to be invalid', __LINE__);
+        }
+    }
+
+    abstract protected function getNodeHandler(DOMNode $node, AbstractDomDocumentHandler $domDocument, int $index = -1): NodeHandler;
+
+    abstract protected function getElementHandler(DOMElement $element, AbstractDomDocumentHandler $domDocument, int $index = -1): ElementHandler;
+
+    abstract protected function getAttributeHandler(DOMAttr $attribute, AbstractDomDocumentHandler $domDocument, int $index = -1): AttributeHandler;
 }

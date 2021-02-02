@@ -10,6 +10,10 @@ use WsdlToPhp\DomHandler\DomDocumentHandler;
 use WsdlToPhp\DomHandler\ElementHandler;
 use WsdlToPhp\DomHandler\NodeHandler;
 
+/**
+ * @internal
+ * @coversNothing
+ */
 class DomDocumentHandlerTest extends TestCase
 {
     protected static ?DomDocumentHandler $actonInstance;
@@ -26,6 +30,7 @@ class DomDocumentHandlerTest extends TestCase
             $doc->load(self::wsdlActonPath());
             self::$actonInstance = new DomDocumentHandler($doc);
         }
+
         return self::$actonInstance;
     }
 
@@ -36,6 +41,7 @@ class DomDocumentHandlerTest extends TestCase
             $doc->load(self::wsdlBingPath());
             self::$bingInstance = new DomDocumentHandler($doc);
         }
+
         return self::$bingInstance;
     }
 
@@ -46,6 +52,7 @@ class DomDocumentHandlerTest extends TestCase
             @$doc->load(self::wsdlEmptyPath());
             self::$emptyInstance = new DomDocumentHandler($doc);
         }
+
         return self::$emptyInstance;
     }
 
@@ -56,6 +63,7 @@ class DomDocumentHandlerTest extends TestCase
             $doc->load(self::wsdlYandexDirectApiAdGroupsPath());
             self::$yandexDirectApiAdGroupsInstance = new DomDocumentHandler($doc);
         }
+
         return self::$yandexDirectApiAdGroupsInstance;
     }
 
@@ -66,6 +74,7 @@ class DomDocumentHandlerTest extends TestCase
             $doc->load(self::wsdlYandexDirectApiGeneralPath());
             self::$yandexDirectApiGeneralInstance = new DomDocumentHandler($doc);
         }
+
         return self::$yandexDirectApiGeneralInstance;
     }
 
@@ -106,10 +115,10 @@ class DomDocumentHandlerTest extends TestCase
     {
         $instance = self::bingInstance();
 
-        $parts = $instance->getElementsByNameAndAttributes('part', array(
+        $parts = $instance->getElementsByNameAndAttributes('part', [
             'name' => 'parameters',
             'element' => 'tns:SearchRequest',
-        ));
+        ]);
         $this->assertNotEmpty($parts);
         $this->assertContainsOnlyInstancesOf(ElementHandler::class, $parts);
     }
@@ -119,10 +128,10 @@ class DomDocumentHandlerTest extends TestCase
         $instance = self::yandexDirectApiAdGroupsInstance();
         $xsd = self::yandexDirectApiGeneralInstance();
 
-        $elements = $instance->getElementsByNameAndAttributes('element', array(
+        $elements = $instance->getElementsByNameAndAttributes('element', [
             'minOccurs' => 1,
             'maxOccurs' => 1,
-        ), $xsd->getElementByNameAndAttributes('complexType', [
+        ], $xsd->getElementByNameAndAttributes('complexType', [
             'name' => 'ExceptionNotification',
         ])->getNode());
         $this->assertCount(2, $elements);
@@ -133,10 +142,10 @@ class DomDocumentHandlerTest extends TestCase
     {
         $instance = self::bingInstance();
 
-        $part = $instance->getElementByNameAndAttributes('part', array(
+        $part = $instance->getElementByNameAndAttributes('part', [
             'name' => 'parameters',
             'element' => 'tns:SearchRequest',
-        ));
+        ]);
         $this->assertInstanceOf(ElementHandler::class, $part);
     }
 
@@ -144,10 +153,10 @@ class DomDocumentHandlerTest extends TestCase
     {
         $instance = self::bingInstance();
 
-        $part = $instance->getElementByNameAndAttributes('part', array(
+        $part = $instance->getElementByNameAndAttributes('part', [
             'name' => 'parameters',
             'element' => '*:SearchRequest',
-        ));
+        ]);
         $this->assertInstanceOf(ElementHandler::class, $part);
     }
 

@@ -7,6 +7,10 @@ namespace WsdlToPhp\DomHandler\Tests;
 use WsdlToPhp\DomHandler\AbstractAttributeHandler;
 use WsdlToPhp\DomHandler\AbstractNodeHandler;
 
+/**
+ * @internal
+ * @coversNothing
+ */
 class NodeHandlerTest extends TestCase
 {
     public function testGetName()

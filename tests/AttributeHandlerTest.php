@@ -6,6 +6,10 @@ namespace WsdlToPhp\DomHandler\Tests;
 
 use WsdlToPhp\DomHandler\AbstractAttributeHandler;
 
+/**
+ * @internal
+ * @coversNothing
+ */
 class AttributeHandlerTest extends TestCase
 {
     public function testGetName()
@@ -44,7 +48,7 @@ class AttributeHandlerTest extends TestCase
         $sequence = $domDocument->getElementByName('sequence');
         $elements = $sequence->getChildrenByName('element');
 
-        $namespaces = array(
+        $namespaces = [
             'xsd',
             'xsd',
             'xsd',
@@ -63,7 +67,7 @@ class AttributeHandlerTest extends TestCase
             'tns',
             'tns',
             'tns',
-        );
+        ];
 
         foreach ($elements as $index => $element) {
             $this->assertSame($namespaces[$index], $element->getAttribute('type')->getValueNamespace());

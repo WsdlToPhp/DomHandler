@@ -92,42 +92,28 @@ abstract class AbstractNodeHandler
         return $this->getHandlers($this->getNode()->childNodes);
     }
 
-    private function getHandlers(?Traversable $nodes): array
-    {
-        if (is_null($nodes)) {
-            return [];
-        }
-
-        $handlers = array();
-        $index = 0;
-        foreach ($nodes as $node) {
-            $handlers[] = $this->getDomDocumentHandler()->getHandler($node, $index++);
-        }
-
-        return $handlers;
-    }
-
     /**
      * @return mixed
      */
     public function getNodeValue()
     {
         $nodeValue = trim($this->getNode()->nodeValue);
-        $nodeValue = str_replace(array(
+        $nodeValue = str_replace([
             "\r",
             "\n",
             "\t",
-        ), array(
+        ], [
             '',
             '',
             ' ',
-        ), $nodeValue);
-        $nodeValue = preg_replace('[\s+]', ' ', $nodeValue);
-        return $nodeValue;
+        ], $nodeValue);
+
+        return preg_replace('[\s+]', ' ', $nodeValue);
     }
 
     /**
-     * Alias for AbstractNodeHandler::getNodeValue()
+     * Alias for AbstractNodeHandler::getNodeValue().
+     *
      * @return mixed
      */
     public function getValue()
@@ -138,5 +124,20 @@ abstract class AbstractNodeHandler
     public function getValueNamespace(): ?string
     {
         return null;
+    }
+
+    private function getHandlers(?Traversable $nodes): array
+    {
+        if (is_null($nodes)) {
+            return [];
+        }
+
+        $handlers = [];
+        $index = 0;
+        foreach ($nodes as $node) {
+            $handlers[] = $this->getDomDocumentHandler()->getHandler($node, $index++);
+        }
+
+        return $handlers;
     }
 }

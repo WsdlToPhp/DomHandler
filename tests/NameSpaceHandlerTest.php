@@ -4,6 +4,10 @@ declare(strict_types=1);
 
 namespace WsdlToPhp\DomHandler\Tests;
 
+/**
+ * @internal
+ * @coversNothing
+ */
 class NameSpaceHandlerTest extends TestCase
 {
     public function testGetParent()

@@ -10,7 +10,7 @@ abstract class TestCase extends PHPUnitFrameworkTestCase
 {
     public static function wsdlBingPath(): string
     {
-        return __DIR__ . '/resources/bingsearch.wsdl';
+        return __DIR__.'/resources/bingsearch.wsdl';
     }
 
     public static function onlineWsdlBingPath(): string
@@ -20,31 +20,31 @@ abstract class TestCase extends PHPUnitFrameworkTestCase
 
     public static function wsdlActonPath(): string
     {
-        return __DIR__ . '/resources/ActonService2.local.wsdl';
+        return __DIR__.'/resources/ActonService2.local.wsdl';
     }
 
     public static function wsdlYandexDirectApiCampaignsPath(): string
     {
-        return __DIR__ . '/resources/directapi/campaigns.wsdl';
+        return __DIR__.'/resources/directapi/campaigns.wsdl';
     }
 
     public static function wsdlYandexDirectApiAdGroupsPath(): string
     {
-        return __DIR__ . '/resources/directapi/adgroups.wsdl';
+        return __DIR__.'/resources/directapi/adgroups.wsdl';
     }
 
     public static function wsdlYandexDirectApiGeneralPath(): string
     {
-        return __DIR__ . '/resources/directapi/general.xsd';
+        return __DIR__.'/resources/directapi/general.xsd';
     }
 
     public static function wsdlYandexDirectApiLivePath(): string
     {
-        return __DIR__ . '/resources/directapi/live.wsdl';
+        return __DIR__.'/resources/directapi/live.wsdl';
     }
 
     public static function wsdlEmptyPath(): string
     {
-        return __DIR__ . '/resources/empty.wsdl';
+        return __DIR__.'/resources/empty.wsdl';
     }
 }
