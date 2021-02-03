@@ -9,7 +9,11 @@ use WsdlToPhp\DomHandler\AbstractElementHandler;
 use WsdlToPhp\DomHandler\AttributeHandler;
 use WsdlToPhp\DomHandler\ElementHandler;
 
-class ElementHandlerTest extends TestCase
+/**
+ * @internal
+ * @coversDefaultClass
+ */
+final class ElementHandlerTest extends TestCase
 {
     public function testHasAttribute()
     {
@@ -75,10 +79,10 @@ class ElementHandlerTest extends TestCase
 
         // first message tag
         $message = $domDocument->getElementByName('message');
-        $part = $message->getChildByNameAndAttributes('part', array(
+        $part = $message->getChildByNameAndAttributes('part', [
             'name' => 'parameters',
             'element' => 'tns:SearchRequest',
-        ));
+        ]);
 
         $this->assertInstanceOf(ElementHandler::class, $part);
         $this->assertSame('parameters', $part->getAttributeValue('name'));
@@ -89,9 +93,9 @@ class ElementHandlerTest extends TestCase
     {
         $domDocument = DomDocumentHandlerTest::yandexDirectApiAdGroupsInstance();
 
-        $element = $domDocument->getElementByNameAndAttributes('element', array(
+        $element = $domDocument->getElementByNameAndAttributes('element', [
             'name' => 'CampaignIds',
-        ));
+        ]);
 
         $this->assertSame('unbounded', $element->getMaxOccurs());
     }
@@ -100,9 +104,9 @@ class ElementHandlerTest extends TestCase
     {
         $domDocument = DomDocumentHandlerTest::yandexDirectApiAdGroupsInstance();
 
-        $element = $domDocument->getElementByNameAndAttributes('element', array(
+        $element = $domDocument->getElementByNameAndAttributes('element', [
             'name' => 'NegativeKeywords',
-        ));
+        ]);
 
         $this->assertSame(AbstractAttributeHandler::DEFAULT_OCCURRENCE_VALUE, $element->getMaxOccurs());
     }
@@ -111,9 +115,9 @@ class ElementHandlerTest extends TestCase
     {
         $domDocument = DomDocumentHandlerTest::yandexDirectApiAdGroupsInstance();
 
-        $element = $domDocument->getElementByNameAndAttributes('element', array(
+        $element = $domDocument->getElementByNameAndAttributes('element', [
             'name' => 'NegativeKeywords',
-        ));
+        ]);
 
         $this->assertSame(0, $element->getMinOccurs());
     }
@@ -122,9 +126,9 @@ class ElementHandlerTest extends TestCase
     {
         $domDocument = DomDocumentHandlerTest::yandexDirectApiAdGroupsInstance();
 
-        $element = $domDocument->getElementByNameAndAttributes('element', array(
+        $element = $domDocument->getElementByNameAndAttributes('element', [
             'name' => 'Name',
-        ));
+        ]);
 
         $this->assertSame(1, $element->getMinOccurs());
     }
@@ -133,9 +137,9 @@ class ElementHandlerTest extends TestCase
     {
         $domDocument = DomDocumentHandlerTest::yandexDirectApiAdGroupsInstance();
 
-        $element = $domDocument->getElementByNameAndAttributes('element', array(
+        $element = $domDocument->getElementByNameAndAttributes('element', [
             'name' => 'RegionIds',
-        ));
+        ]);
 
         $this->assertTrue($element->canOccurSeveralTimes());
     }
@@ -145,9 +149,9 @@ class ElementHandlerTest extends TestCase
         $domDocument = DomDocumentHandlerTest::yandexDirectApiAdGroupsInstance();
 
         /** @var AbstractElementHandler $element */
-        $element = $domDocument->getElementByNameAndAttributes('element', array(
+        $element = $domDocument->getElementByNameAndAttributes('element', [
             'name' => 'CampaignId',
-        ));
+        ]);
 
         $this->assertTrue($element->canOccurOnlyOnce());
     }
@@ -156,9 +160,9 @@ class ElementHandlerTest extends TestCase
     {
         $domDocument = DomDocumentHandlerTest::yandexDirectApiAdGroupsInstance();
 
-        $element = $domDocument->getElementByNameAndAttributes('element', array(
+        $element = $domDocument->getElementByNameAndAttributes('element', [
             'name' => 'NegativeKeywords',
-        ));
+        ]);
 
         $this->assertTrue($element->canOccurOnlyOnce());
     }
@@ -167,9 +171,9 @@ class ElementHandlerTest extends TestCase
     {
         $domDocument = DomDocumentHandlerTest::yandexDirectApiAdGroupsInstance();
 
-        $element = $domDocument->getElementByNameAndAttributes('element', array(
+        $element = $domDocument->getElementByNameAndAttributes('element', [
             'name' => 'NegativeKeywords',
-        ));
+        ]);
 
         $this->assertTrue($element->isOptional());
     }
@@ -178,9 +182,9 @@ class ElementHandlerTest extends TestCase
     {
         $domDocument = DomDocumentHandlerTest::yandexDirectApiAdGroupsInstance();
 
-        $element = $domDocument->getElementByNameAndAttributes('element', array(
+        $element = $domDocument->getElementByNameAndAttributes('element', [
             'name' => 'Name',
-        ));
+        ]);
 
         $this->assertTrue($element->isRequired());
     }
@@ -189,9 +193,9 @@ class ElementHandlerTest extends TestCase
     {
         $domDocument = DomDocumentHandlerTest::yandexDirectApiAdGroupsInstance();
 
-        $element = $domDocument->getElementByNameAndAttributes('element', array(
+        $element = $domDocument->getElementByNameAndAttributes('element', [
             'name' => 'NegativeKeywords',
-        ));
+        ]);
 
         $this->assertFalse($element->isRequired());
     }
@@ -200,9 +204,9 @@ class ElementHandlerTest extends TestCase
     {
         $domDocument = DomDocumentHandlerTest::yandexDirectApiAdGroupsInstance();
 
-        $element = $domDocument->getElementByNameAndAttributes('element', array(
+        $element = $domDocument->getElementByNameAndAttributes('element', [
             'name' => 'NegativeKeywords',
-        ));
+        ]);
 
         $this->assertTrue($element->getNillable());
     }
@@ -211,9 +215,9 @@ class ElementHandlerTest extends TestCase
     {
         $domDocument = DomDocumentHandlerTest::yandexDirectApiAdGroupsInstance();
 
-        $element = $domDocument->getElementByNameAndAttributes('element', array(
+        $element = $domDocument->getElementByNameAndAttributes('element', [
             'name' => 'NegativeKeywords',
-        ));
+        ]);
 
         $this->assertTrue($element->isRemovable());
     }
@@ -222,9 +226,9 @@ class ElementHandlerTest extends TestCase
     {
         $domDocument = DomDocumentHandlerTest::yandexDirectApiAdGroupsInstance();
 
-        $element = $domDocument->getElementByNameAndAttributes('element', array(
+        $element = $domDocument->getElementByNameAndAttributes('element', [
             'name' => 'TrackingParams',
-        ));
+        ]);
 
         $this->assertFalse($element->getNillable());
     }
@@ -233,9 +237,9 @@ class ElementHandlerTest extends TestCase
     {
         $domDocument = DomDocumentHandlerTest::yandexDirectApiAdGroupsInstance();
 
-        $element = $domDocument->getElementByNameAndAttributes('element', array(
+        $element = $domDocument->getElementByNameAndAttributes('element', [
             'name' => 'TrackingParams',
-        ));
+        ]);
 
         $this->assertFalse($element->isRemovable());
     }
@@ -244,9 +248,9 @@ class ElementHandlerTest extends TestCase
     {
         $domDocument = DomDocumentHandlerTest::actonInstance();
 
-        $element = $domDocument->getElementByNameAndAttributes('element', array(
+        $element = $domDocument->getElementByNameAndAttributes('element', [
             'name' => 'email',
-        ));
+        ]);
 
         $this->assertFalse($element->getNillable());
     }
@@ -255,9 +259,9 @@ class ElementHandlerTest extends TestCase
     {
         $domDocument = DomDocumentHandlerTest::actonInstance();
 
-        $element = $domDocument->getElementByNameAndAttributes('element', array(
+        $element = $domDocument->getElementByNameAndAttributes('element', [
             'name' => 'email',
-        ));
+        ]);
 
         $this->assertFalse($element->isRemovable());
     }
@@ -266,9 +270,9 @@ class ElementHandlerTest extends TestCase
     {
         $domDocument = DomDocumentHandlerTest::actonInstance();
 
-        $element = $domDocument->getElementByNameAndAttributes('element', array(
+        $element = $domDocument->getElementByNameAndAttributes('element', [
             'name' => 'serverUrl',
-        ));
+        ]);
 
         $this->assertTrue($element->getNillable());
     }
@@ -277,9 +281,9 @@ class ElementHandlerTest extends TestCase
     {
         $domDocument = DomDocumentHandlerTest::actonInstance();
 
-        $element = $domDocument->getElementByNameAndAttributes('element', array(
+        $element = $domDocument->getElementByNameAndAttributes('element', [
             'name' => 'serverUrl',
-        ));
+        ]);
 
         $this->assertFalse($element->isRemovable());
     }

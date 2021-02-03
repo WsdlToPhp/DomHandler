@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 2.0.4 - 2021/02/03
+- Review .php_cs settings, apply PHP CS Fixer
+- Change tests classes to final classes
+
 ## 2.0.3 - 2021/02/01
 - issue #3 - getAttributes returns an empty array
 
@@ -10,7 +14,7 @@
 - Minor readme and Travis CI updates
 
 ## 2.0.0 - 2021/01/26
-- use `splitbrain/phpfarm:jessie` as Docker image and fix docker image settings
+- Use `splitbrain/phpfarm:jessie` as Docker image and fix docker image settings
 - Code requires PHP >= 7.4
 - Code cleaning
 - Update README

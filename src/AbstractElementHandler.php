@@ -41,7 +41,7 @@ abstract class AbstractElementHandler extends AbstractNodeHandler
 
     public function getChildrenByName(string $name): array
     {
-        $children = array();
+        $children = [];
         if ($this->hasChildren()) {
             foreach ($this->getElement()->getElementsByTagName($name) as $index => $node) {
                 $children[] = $this->getDomDocumentHandler()->getHandler($node, $index);
@@ -53,7 +53,7 @@ abstract class AbstractElementHandler extends AbstractNodeHandler
 
     public function getElementChildren(): array
     {
-        $children = array();
+        $children = [];
         if ($this->hasChildren()) {
             $children = $this->getDomDocumentHandler()->getElementsHandlers($this->getChildNodes());
         }
@@ -74,7 +74,8 @@ abstract class AbstractElementHandler extends AbstractNodeHandler
     }
 
     /**
-     * Info at {@link https://www.w3.org/TR/xmlschema-0/#OccurrenceConstraints}
+     * Info at {@link https://www.w3.org/TR/xmlschema-0/#OccurrenceConstraints}.
+     *
      * @return mixed
      */
     public function getMaxOccurs()
@@ -91,7 +92,8 @@ abstract class AbstractElementHandler extends AbstractNodeHandler
     }
 
     /**
-     * Info at {@link https://www.w3.org/TR/xmlschema-0/#OccurrenceConstraints}
+     * Info at {@link https://www.w3.org/TR/xmlschema-0/#OccurrenceConstraints}.
+     *
      * @return int
      */
     public function getMinOccurs()
@@ -105,8 +107,7 @@ abstract class AbstractElementHandler extends AbstractNodeHandler
     }
 
     /**
-     * Info at {@link http://www.w3schools.com/xml/el_element.asp}
-     * @return bool
+     * Info at {@link http://www.w3schools.com/xml/el_element.asp}.
      */
     public function getNillable(): bool
     {
@@ -114,8 +115,7 @@ abstract class AbstractElementHandler extends AbstractNodeHandler
     }
 
     /**
-     * Info at {@link https://www.w3.org/TR/xmlschema-0/#OccurrenceConstraints}
-     * @return bool
+     * Info at {@link https://www.w3.org/TR/xmlschema-0/#OccurrenceConstraints}.
      */
     public function canOccurSeveralTimes(): bool
     {
@@ -123,8 +123,7 @@ abstract class AbstractElementHandler extends AbstractNodeHandler
     }
 
     /**
-     * Info at {@link https://www.w3.org/TR/xmlschema-0/#OccurrenceConstraints}
-     * @return bool
+     * Info at {@link https://www.w3.org/TR/xmlschema-0/#OccurrenceConstraints}.
      */
     public function canOccurOnlyOnce(): bool
     {
@@ -132,8 +131,7 @@ abstract class AbstractElementHandler extends AbstractNodeHandler
     }
 
     /**
-     * Info at {@link https://www.w3.org/TR/xmlschema-0/#OccurrenceConstraints}
-     * @return bool
+     * Info at {@link https://www.w3.org/TR/xmlschema-0/#OccurrenceConstraints}.
      */
     public function isOptional(): bool
     {
@@ -141,17 +139,13 @@ abstract class AbstractElementHandler extends AbstractNodeHandler
     }
 
     /**
-     * Info at {@link https://www.w3.org/TR/xmlschema-0/#OccurrenceConstraints}
-     * @return bool
+     * Info at {@link https://www.w3.org/TR/xmlschema-0/#OccurrenceConstraints}.
      */
     public function isRequired(): bool
     {
         return 1 <= $this->getMinOccurs();
     }
 
-    /**
-     * @return bool
-     */
     public function isRemovable(): bool
     {
         return $this->isOptional() && $this->getNillable();
