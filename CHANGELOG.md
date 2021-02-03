@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 2.0.4 - 2021/02/03
+- Review .php_cs settings, apply PHP CS Fixer
+- Change tests classes to final classes
+
 ## 2.0.3 - 2021/02/01
 - issue #3 - getAttributes returns an empty array
 
