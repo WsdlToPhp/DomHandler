@@ -13,7 +13,7 @@ use WsdlToPhp\DomHandler\ElementHandler;
  * @internal
  * @coversDefaultClass
  */
-class ElementHandlerTest extends TestCase
+final class ElementHandlerTest extends TestCase
 {
     public function testHasAttribute()
     {

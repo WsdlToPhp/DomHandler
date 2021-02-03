@@ -10,7 +10,7 @@ use WsdlToPhp\DomHandler\AbstractAttributeHandler;
  * @internal
  * @coversDefaultClass
  */
-class AttributeHandlerTest extends TestCase
+final class AttributeHandlerTest extends TestCase
 {
     public function testGetName()
     {

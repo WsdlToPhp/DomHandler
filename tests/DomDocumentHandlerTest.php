@@ -14,7 +14,7 @@ use WsdlToPhp\DomHandler\NodeHandler;
  * @internal
  * @coversDefaultClass
  */
-class DomDocumentHandlerTest extends TestCase
+final class DomDocumentHandlerTest extends TestCase
 {
     protected static ?DomDocumentHandler $actonInstance;
     protected static ?DomDocumentHandler $ebayInstance;

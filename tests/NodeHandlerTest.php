@@ -11,7 +11,7 @@ use WsdlToPhp\DomHandler\AbstractNodeHandler;
  * @internal
  * @coversDefaultClass
  */
-class NodeHandlerTest extends TestCase
+final class NodeHandlerTest extends TestCase
 {
     public function testGetName()
     {
