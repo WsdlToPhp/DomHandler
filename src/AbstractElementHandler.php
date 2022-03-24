@@ -25,9 +25,12 @@ abstract class AbstractElementHandler extends AbstractNodeHandler
 
     public function getAttribute(string $name): ?AttributeHandler
     {
-        return $this->hasAttribute($name) ? $this->getDomDocumentHandler()->getHandler($this->getNode()->getAttributeNode($name)) : null;
+        return $this->hasAttribute($name) ? $this->getDomDocumentHandler()->getHandler($this->getElement()->getAttributeNode($name)) : null;
     }
 
+    /**
+     * @return null|bool|mixed|string
+     */
     public function getAttributeValue(string $name, bool $withNamespace = false, bool $withinItsType = true, ?string $asType = AbstractAttributeHandler::DEFAULT_VALUE_TYPE)
     {
         $value = null;
@@ -39,38 +42,50 @@ abstract class AbstractElementHandler extends AbstractNodeHandler
         return $value;
     }
 
+    /**
+     * @return array<int, AbstractElementHandler|AbstractNodeHandler>
+     */
     public function getChildrenByName(string $name): array
     {
         $children = [];
-        if ($this->hasChildren()) {
-            foreach ($this->getElement()->getElementsByTagName($name) as $index => $node) {
-                $children[] = $this->getDomDocumentHandler()->getHandler($node, $index);
-            }
+
+        if (!$this->hasChildren()) {
+            return $children;
+        }
+
+        foreach ($this->getElement()->getElementsByTagName($name) as $index => $node) {
+            $children[] = $this->getDomDocumentHandler()->getHandler($node, $index);
         }
 
         return $children;
     }
 
+    /**
+     * @return AbstractElementHandler[]
+     */
     public function getElementChildren(): array
     {
-        $children = [];
-        if ($this->hasChildren()) {
-            $children = $this->getDomDocumentHandler()->getElementsHandlers($this->getChildNodes());
-        }
-
-        return $children;
+        return $this->hasChildren() ? $this->getDomDocumentHandler()->getElementsHandlers($this->getChildNodes()) : [];
     }
 
+    /**
+     * @param string[] $attributes
+     *
+     * @return AbstractAttributeHandler[]|AbstractElementHandler[]|AbstractNodeHandler[]
+     */
     public function getChildrenByNameAndAttributes(string $name, array $attributes): array
     {
         return $this->getDomDocumentHandler()->getElementsByNameAndAttributes($name, $attributes, $this->getNode());
     }
 
+    /**
+     * @param string[] $attributes
+     */
     public function getChildByNameAndAttributes(string $name, array $attributes): ?ElementHandler
     {
         $children = $this->getChildrenByNameAndAttributes($name, $attributes);
 
-        return empty($children) ? null : array_shift($children);
+        return array_shift($children);
     }
 
     /**
