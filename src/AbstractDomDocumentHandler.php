@@ -23,6 +23,9 @@ abstract class AbstractDomDocumentHandler
         $this->initRootElement();
     }
 
+    /**
+     * @param DOMAttr|DOMElement|DOMNode $node
+     */
     public function getHandler($node, int $index = -1): AbstractNodeHandler
     {
         if ($node instanceof DOMElement) {
@@ -53,6 +56,9 @@ abstract class AbstractDomDocumentHandler
         return null;
     }
 
+    /**
+     * @return AbstractAttributeHandler[]|AbstractElementHandler[]|AbstractNodeHandler[]
+     */
     public function getNodesByName(string $name, ?string $checkInstance = null): array
     {
         $nodes = [];
@@ -67,18 +73,26 @@ abstract class AbstractDomDocumentHandler
         return $nodes;
     }
 
+    /**
+     * @return AbstractAttributeHandler[]|AbstractElementHandler[]|AbstractNodeHandler[]
+     */
     public function getElementsByName(string $name): array
     {
         return $this->getNodesByName($name, DOMElement::class);
     }
 
+    /**
+     * @param string[] $attributes
+     *
+     * @return AbstractAttributeHandler[]|AbstractElementHandler[]|AbstractNodeHandler[]
+     */
     public function getElementsByNameAndAttributes(string $name, array $attributes, ?DOMNode $node = null): array
     {
         $matchingElements = $this->getElementsByName($name);
         if ((!empty($attributes) || $node instanceof DOMNode) && !empty($matchingElements)) {
             $nodes = $this->searchTagsByXpath($name, $attributes, $node);
 
-            if (!empty($nodes)) {
+            if ($nodes && 0 < $nodes->count()) {
                 $matchingElements = $this->getElementsHandlers($nodes);
             }
         }
@@ -86,23 +100,37 @@ abstract class AbstractDomDocumentHandler
         return $matchingElements;
     }
 
+    /**
+     * @param DOMNodeList<DOMAttr|DOMElement|DOMNode> $nodeList
+     *
+     * @return AbstractElementHandler[]
+     */
     public function getElementsHandlers(DOMNodeList $nodeList): array
     {
         $nodes = [];
-        if (!empty($nodeList)) {
-            $index = 0;
-            foreach ($nodeList as $node) {
-                if ($node instanceof DOMElement) {
-                    $nodes[] = $this->getElementHandler($node, $this, $index);
-                    ++$index;
-                }
+        if (0 === $nodeList->count()) {
+            return $nodes;
+        }
+
+        $index = 0;
+        foreach ($nodeList as $node) {
+            if (!$node instanceof DOMElement) {
+                continue;
             }
+
+            $nodes[] = $this->getElementHandler($node, $this, $index);
+            ++$index;
         }
 
         return $nodes;
     }
 
-    public function searchTagsByXpath(string $name, array $attributes, ?DOMNode $node = null): DOMNodeList
+    /**
+     * @param string[] $attributes
+     *
+     * @return DOMNodeList<DOMAttr|DOMElement|DOMNode>|false
+     */
+    public function searchTagsByXpath(string $name, array $attributes, ?DOMNode $node = null)
     {
         $xpath = new DOMXPath($node ? $node->ownerDocument : $this->domDocument);
         $xQuery = sprintf("%s//*[local-name()='%s']", $node instanceof DOMNode ? '.' : '', $name);
@@ -117,6 +145,9 @@ abstract class AbstractDomDocumentHandler
         return $xpath->query($xQuery, $node);
     }
 
+    /**
+     * @param string[] $attributes
+     */
     public function getElementByNameAndAttributes(string $name, array $attributes): ?ElementHandler
     {
         $elements = $this->getElementsByNameAndAttributes($name, $attributes);
@@ -129,7 +160,7 @@ abstract class AbstractDomDocumentHandler
      *
      * @throws InvalidArgumentException
      */
-    protected function initRootElement()
+    protected function initRootElement(): void
     {
         if ($this->domDocument->hasChildNodes()) {
             foreach ($this->domDocument->childNodes as $node) {

@@ -4,12 +4,12 @@
 
 [![License](https://poser.pugx.org/wsdltophp/domhandler/license)](https://packagist.org/packages/wsdltophp/domhandler)
 [![Latest Stable Version](https://poser.pugx.org/wsdltophp/domhandler/version.png)](https://packagist.org/packages/wsdltophp/domhandler)
-[![Build Status](https://travis-ci.com/WsdlToPhp/DomHandler.svg)](https://travis-ci.com/github/WsdlToPhp/DomHandler)
+[![TeamCity build status](https://teamcity.mikael-delsol.fr/app/rest/builds/buildType:id:WsdlHandler_Build/statusIcon.svg)](https://github.com/WsdlToPhp/DomHandler)
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/WsdlToPhp/DomHandler/badges/quality-score.png)](https://scrutinizer-ci.com/g/WsdlToPhp/DomHandler/)
 [![Code Coverage](https://scrutinizer-ci.com/g/WsdlToPhp/DomHandler/badges/coverage.png)](https://scrutinizer-ci.com/g/WsdlToPhp/DomHandler/)
 [![Total Downloads](https://poser.pugx.org/wsdltophp/domhandler/downloads)](https://packagist.org/packages/wsdltophp/domhandler)
 [![StyleCI](https://styleci.io/repos/87977980/shield)](https://styleci.io/repos/87977980)
-[![SensioLabsInsight](https://insight.sensiolabs.com/projects/6bac01d7-5243-4682-9264-8166407c8a30/mini.png)](https://insight.sensiolabs.com/projects/6bac01d7-5243-4682-9264-8166407c8a30)
+[![SymfonyInsight](https://insight.symfony.com/projects/93e73feb-60bc-4e99-a3ce-87e537c61fed/mini.svg)](https://insight.symfony.com/projects/93e73feb-60bc-4e99-a3ce-87e537c61fed)
 
 DomHandler uses the [decorator design pattern](https://en.wikipedia.org/wiki/Decorator_pattern) in order to ease DOM handling.
 

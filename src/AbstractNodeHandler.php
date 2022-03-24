@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace WsdlToPhp\DomHandler;
 
+use DOMElement;
 use DOMNode;
 use DOMNodeList;
 use Traversable;
@@ -28,6 +29,9 @@ abstract class AbstractNodeHandler
         return $this->node;
     }
 
+    /**
+     * @return DOMNodeList<DOMElement|DOMNode>
+     */
     public function getChildNodes(): DOMNodeList
     {
         return $this->getNode()->childNodes;
@@ -77,6 +81,9 @@ abstract class AbstractNodeHandler
         return $this->getNode()->hasAttributes();
     }
 
+    /**
+     * @return AbstractAttributeHandler[]|AbstractNodeHandler[]
+     */
     public function getAttributes(): array
     {
         return $this->getHandlers($this->getNode()->attributes);
@@ -87,6 +94,9 @@ abstract class AbstractNodeHandler
         return $this->getNode()->hasChildNodes();
     }
 
+    /**
+     * @return AbstractAttributeHandler[]|AbstractElementHandler[]|AbstractNodeHandler[]
+     */
     public function getChildren(): array
     {
         return $this->getHandlers($this->getNode()->childNodes);
@@ -126,6 +136,11 @@ abstract class AbstractNodeHandler
         return null;
     }
 
+    /**
+     * @param null|Traversable<DOMNode> $nodes
+     *
+     * @return AbstractAttributeHandler[]|AbstractElementHandler[]|AbstractNodeHandler[]
+     */
     private function getHandlers(?Traversable $nodes): array
     {
         if (is_null($nodes)) {
