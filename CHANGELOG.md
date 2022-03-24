@@ -1,5 +1,8 @@
 # CHANGELOG
 
+## 2.0.6 - 2022/03/24
+- Minor fix
+
 ## 2.0.5 - 2022/03/24
 - Rename .php_cs to .php-cs-fixer.php
 - Add PHPStan
