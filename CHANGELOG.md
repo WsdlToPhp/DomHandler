@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## 2.0.5 - 2022/03/24
+- Rename .php_cs to .php-cs-fixer.php
+- Add PHPStan
+- Review PHP annotations
+- Update badges
+
 ## 2.0.4 - 2021/02/03
 - Review .php_cs settings, apply PHP CS Fixer
 - Change tests classes to final classes
