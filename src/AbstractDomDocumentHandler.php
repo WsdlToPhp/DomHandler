@@ -24,7 +24,7 @@ abstract class AbstractDomDocumentHandler
     }
 
     /**
-     * @param DOMAttr|DOMElement|DOMNode $node
+     * @param DOMAttr|DOMElement|DOMNode|DOMNameSpaceNode $node
      */
     public function getHandler($node, int $index = -1): AbstractNodeHandler
     {
@@ -92,7 +92,7 @@ abstract class AbstractDomDocumentHandler
         if ((!empty($attributes) || $node instanceof DOMNode) && !empty($matchingElements)) {
             $nodes = $this->searchTagsByXpath($name, $attributes, $node);
 
-            if ($nodes && 0 < $nodes->count()) {
+            if (false !== $nodes) {
                 $matchingElements = $this->getElementsHandlers($nodes);
             }
         }
