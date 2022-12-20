@@ -8,11 +8,12 @@ use WsdlToPhp\DomHandler\AbstractAttributeHandler;
 
 /**
  * @internal
- * @coversDefaultClass
+ *
+ * @coversDefaultClass \WsdlToPhp\DomHandler\AttributeHandler
  */
 final class AttributeHandlerTest extends TestCase
 {
-    public function testGetName()
+    public function testGetName(): void
     {
         $domDocument = DomDocumentHandlerTest::bingInstance();
 
@@ -25,7 +26,7 @@ final class AttributeHandlerTest extends TestCase
         $this->assertEquals('default', $element->getAttribute('default')->getName());
     }
 
-    public function testGetValue()
+    public function testGetValue(): void
     {
         $domDocument = DomDocumentHandlerTest::bingInstance();
 
@@ -41,7 +42,7 @@ final class AttributeHandlerTest extends TestCase
         $this->assertSame(2.2, $element->getAttributeValue('default', false, true, 'float'));
     }
 
-    public function testGetValueNamespace()
+    public function testGetValueNamespace(): void
     {
         $domDocument = DomDocumentHandlerTest::bingInstance();
 
@@ -74,7 +75,7 @@ final class AttributeHandlerTest extends TestCase
         }
     }
 
-    public function testGetNamespaceNull()
+    public function testGetNamespaceNull(): void
     {
         $domDocument = DomDocumentHandlerTest::bingInstance();
 
@@ -84,7 +85,7 @@ final class AttributeHandlerTest extends TestCase
         $this->assertNull($element->getAttribute(AbstractAttributeHandler::ATTRIBUTE_MIN_OCCURS)->getNamespace());
     }
 
-    public function testGetMaxOccurs()
+    public function testGetMaxOccurs(): void
     {
         $domDocument = DomDocumentHandlerTest::yandexDirectApiAdGroupsInstance();
 

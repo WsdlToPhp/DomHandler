@@ -2,39 +2,32 @@
 
 namespace WsdlToPhp\DomHandler;
 
-use DOMAttr;
-use DOMDocument;
 use DOMElement;
-use DOMNameSpaceNode;
-use DOMNode;
-use DOMNodeList;
-use DOMXPath;
-use InvalidArgumentException;
 
 abstract class AbstractDomDocumentHandler
 {
-    protected DOMDocument $domDocument;
+    protected \DOMDocument $domDocument;
 
     protected ?ElementHandler $rootElement;
 
-    public function __construct(DOMDocument $domDocument)
+    public function __construct(\DOMDocument $domDocument)
     {
         $this->domDocument = $domDocument;
         $this->initRootElement();
     }
 
     /**
-     * @param DOMAttr|DOMElement|DOMNode|DOMNameSpaceNode $node
+     * @param \DOMAttr|\DOMElement|\DOMNameSpaceNode|\DOMNode $node
      */
     public function getHandler($node, int $index = -1): AbstractNodeHandler
     {
-        if ($node instanceof DOMElement) {
+        if ($node instanceof \DOMElement) {
             return $this->getElementHandler($node, $this, $index);
         }
-        if ($node instanceof DOMAttr) {
+        if ($node instanceof \DOMAttr) {
             return $this->getAttributeHandler($node, $this, $index);
         }
-        if ($node instanceof DOMNameSpaceNode) {
+        if ($node instanceof \DOMNameSpaceNode) {
             return new NameSpaceHandler($node, $this, $index);
         }
 
@@ -49,7 +42,7 @@ abstract class AbstractDomDocumentHandler
     public function getElementByName(string $name): ?ElementHandler
     {
         $node = $this->getNodeByName($name);
-        if ($node instanceof AbstractNodeHandler && $node->getNode() instanceof DOMElement) {
+        if ($node instanceof AbstractNodeHandler && $node->getNode() instanceof \DOMElement) {
             return $this->getElementHandler($node->getNode(), $this);
         }
 
@@ -78,7 +71,7 @@ abstract class AbstractDomDocumentHandler
      */
     public function getElementsByName(string $name): array
     {
-        return $this->getNodesByName($name, DOMElement::class);
+        return $this->getNodesByName($name, \DOMElement::class);
     }
 
     /**
@@ -86,10 +79,10 @@ abstract class AbstractDomDocumentHandler
      *
      * @return AbstractAttributeHandler[]|AbstractElementHandler[]|AbstractNodeHandler[]
      */
-    public function getElementsByNameAndAttributes(string $name, array $attributes, ?DOMNode $node = null): array
+    public function getElementsByNameAndAttributes(string $name, array $attributes, ?\DOMNode $node = null): array
     {
         $matchingElements = $this->getElementsByName($name);
-        if ((!empty($attributes) || $node instanceof DOMNode) && !empty($matchingElements)) {
+        if ((!empty($attributes) || $node instanceof \DOMNode) && !empty($matchingElements)) {
             $nodes = $this->searchTagsByXpath($name, $attributes, $node);
 
             if (false !== $nodes) {
@@ -101,11 +94,11 @@ abstract class AbstractDomDocumentHandler
     }
 
     /**
-     * @param DOMNodeList<DOMAttr|DOMElement|DOMNode> $nodeList
+     * @param \DOMNodeList<\DOMAttr|\DOMElement|\DOMNode> $nodeList
      *
      * @return AbstractElementHandler[]
      */
-    public function getElementsHandlers(DOMNodeList $nodeList): array
+    public function getElementsHandlers(\DOMNodeList $nodeList): array
     {
         $nodes = [];
         if (0 === $nodeList->count()) {
@@ -114,7 +107,7 @@ abstract class AbstractDomDocumentHandler
 
         $index = 0;
         foreach ($nodeList as $node) {
-            if (!$node instanceof DOMElement) {
+            if (!$node instanceof \DOMElement) {
                 continue;
             }
 
@@ -128,12 +121,12 @@ abstract class AbstractDomDocumentHandler
     /**
      * @param string[] $attributes
      *
-     * @return DOMNodeList<DOMAttr|DOMElement|DOMNode>|false
+     * @return \DOMNodeList<\DOMAttr|\DOMElement|\DOMNode>|false
      */
-    public function searchTagsByXpath(string $name, array $attributes, ?DOMNode $node = null)
+    public function searchTagsByXpath(string $name, array $attributes, ?\DOMNode $node = null)
     {
-        $xpath = new DOMXPath($node ? $node->ownerDocument : $this->domDocument);
-        $xQuery = sprintf("%s//*[local-name()='%s']", $node instanceof DOMNode ? '.' : '', $name);
+        $xpath = new \DOMXPath($node ? $node->ownerDocument : $this->domDocument);
+        $xQuery = sprintf("%s//*[local-name()='%s']", $node instanceof \DOMNode ? '.' : '', $name);
         foreach ($attributes as $attributeName => $attributeValue) {
             if (false !== strpos($attributeValue, '*')) {
                 $xQuery .= sprintf("[contains(@%s, '%s')]", $attributeName, str_replace('*', '', $attributeValue));
@@ -152,32 +145,34 @@ abstract class AbstractDomDocumentHandler
     {
         $elements = $this->getElementsByNameAndAttributes($name, $attributes);
 
-        return array_shift($elements);
+        $element = array_shift($elements);
+
+        return $element instanceof ElementHandler ? $element : null;
     }
 
     /**
      * Find valid root node (not a comment, at least a DOMElement node).
      *
-     * @throws InvalidArgumentException
+     * @throws \InvalidArgumentException
      */
     protected function initRootElement(): void
     {
         if ($this->domDocument->hasChildNodes()) {
             foreach ($this->domDocument->childNodes as $node) {
-                if ($node instanceof DOMElement) {
+                if ($node instanceof \DOMElement) {
                     $this->rootElement = $this->getElementHandler($node, $this);
 
                     break;
                 }
             }
         } else {
-            throw new InvalidArgumentException('Document seems to be invalid', __LINE__);
+            throw new \InvalidArgumentException('Document seems to be invalid', __LINE__);
         }
     }
 
-    abstract protected function getNodeHandler(DOMNode $node, AbstractDomDocumentHandler $domDocument, int $index = -1): NodeHandler;
+    abstract protected function getNodeHandler(\DOMNode $node, AbstractDomDocumentHandler $domDocument, int $index = -1): NodeHandler;
 
-    abstract protected function getElementHandler(DOMElement $element, AbstractDomDocumentHandler $domDocument, int $index = -1): ElementHandler;
+    abstract protected function getElementHandler(\DOMElement $element, AbstractDomDocumentHandler $domDocument, int $index = -1): ElementHandler;
 
-    abstract protected function getAttributeHandler(DOMAttr $attribute, AbstractDomDocumentHandler $domDocument, int $index = -1): AttributeHandler;
+    abstract protected function getAttributeHandler(\DOMAttr $attribute, AbstractDomDocumentHandler $domDocument, int $index = -1): AttributeHandler;
 }

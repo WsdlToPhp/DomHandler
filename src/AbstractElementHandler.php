@@ -4,28 +4,32 @@ declare(strict_types=1);
 
 namespace WsdlToPhp\DomHandler;
 
-use DOMElement;
-
 abstract class AbstractElementHandler extends AbstractNodeHandler
 {
-    public function __construct(DOMElement $element, AbstractDomDocumentHandler $domDocument, int $index = -1)
+    public function __construct(\DOMElement $element, AbstractDomDocumentHandler $domDocument, int $index = -1)
     {
         parent::__construct($element, $domDocument, $index);
     }
 
-    public function getElement(): DOMElement
+    public function getElement(): ?\DOMElement
     {
-        return $this->getNode();
+        return $this->getNode() instanceof \DOMElement ? $this->getNode() : null;
     }
 
     public function hasAttribute(string $name): bool
     {
-        return $this->getElement()->hasAttribute($name);
+        return $this->getElement() && $this->getElement()->hasAttribute($name);
     }
 
     public function getAttribute(string $name): ?AttributeHandler
     {
-        return $this->hasAttribute($name) ? $this->getDomDocumentHandler()->getHandler($this->getElement()->getAttributeNode($name)) : null;
+        if (!$this->hasAttribute($name) || !$this->getElement()) {
+            return null;
+        }
+
+        $attribute = $this->getDomDocumentHandler()->getHandler($this->getElement()->getAttributeNode($name));
+
+        return $attribute instanceof AttributeHandler ? $attribute : null;
     }
 
     /**
@@ -49,7 +53,7 @@ abstract class AbstractElementHandler extends AbstractNodeHandler
     {
         $children = [];
 
-        if (!$this->hasChildren()) {
+        if (!$this->hasChildren() || !$this->getElement()) {
             return $children;
         }
 
@@ -85,7 +89,9 @@ abstract class AbstractElementHandler extends AbstractNodeHandler
     {
         $children = $this->getChildrenByNameAndAttributes($name, $attributes);
 
-        return array_shift($children);
+        $child = array_shift($children);
+
+        return $child instanceof ElementHandler ? $child : null;
     }
 
     /**

@@ -4,16 +4,13 @@ declare(strict_types=1);
 
 namespace WsdlToPhp\DomHandler;
 
-use DOMAttr;
-use DOMNameSpaceNode;
-
 class NameSpaceHandler extends AttributeHandler
 {
-    protected DOMNameSpaceNode $nodeNameSpace;
+    protected \DOMNameSpaceNode $nodeNameSpace;
 
-    public function __construct(DOMNameSpaceNode $nameSpaceNode, AbstractDomDocumentHandler $domDocumentHandler, int $index = -1)
+    public function __construct(\DOMNameSpaceNode $nameSpaceNode, AbstractDomDocumentHandler $domDocumentHandler, int $index = -1)
     {
-        parent::__construct(new DOMAttr($nameSpaceNode->nodeName, $nameSpaceNode->nodeValue), $domDocumentHandler, $index);
+        parent::__construct(new \DOMAttr($nameSpaceNode->nodeName, $nameSpaceNode->nodeValue), $domDocumentHandler, $index);
         $this->nodeNameSpace = $nameSpaceNode;
     }
 

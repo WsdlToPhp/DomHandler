@@ -6,11 +6,12 @@ namespace WsdlToPhp\DomHandler\Tests;
 
 /**
  * @internal
- * @coversDefaultClass
+ *
+ * @coversDefaultClass \WsdlToPhp\DomHandler\NameSpaceHandler
  */
 final class NameSpaceHandlerTest extends TestCase
 {
-    public function testGetParent()
+    public function testGetParent(): void
     {
         $domDocument = DomDocumentHandlerTest::bingInstance();
 
@@ -19,14 +20,14 @@ final class NameSpaceHandlerTest extends TestCase
         $this->assertNull($nameSpaceHandler->getParent());
     }
 
-    public function testGetValueNamespace()
+    public function testGetValueNamespace(): void
     {
         $domDocument = DomDocumentHandlerTest::bingInstance();
 
         $this->assertNull($domDocument->getRootElement()->getAttribute('xmlns:xsi')->getValueNamespace());
     }
 
-    public function testGetValue()
+    public function testGetValue(): void
     {
         $domDocument = DomDocumentHandlerTest::bingInstance();
 

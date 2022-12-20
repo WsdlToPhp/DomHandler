@@ -4,15 +4,14 @@ declare(strict_types=1);
 
 namespace WsdlToPhp\DomHandler\Tests;
 
-use DOMDocument;
-use InvalidArgumentException;
 use WsdlToPhp\DomHandler\DomDocumentHandler;
 use WsdlToPhp\DomHandler\ElementHandler;
 use WsdlToPhp\DomHandler\NodeHandler;
 
 /**
  * @internal
- * @coversDefaultClass
+ *
+ * @coversDefaultClass \WsdlToPhp\DomHandler\DomDocumentHandler
  */
 final class DomDocumentHandlerTest extends TestCase
 {
@@ -26,7 +25,7 @@ final class DomDocumentHandlerTest extends TestCase
     public static function actonInstance(): DomDocumentHandler
     {
         if (!isset(self::$actonInstance)) {
-            $doc = new DOMDocument('1.0', 'utf-8');
+            $doc = new \DOMDocument('1.0', 'utf-8');
             $doc->load(self::wsdlActonPath());
             self::$actonInstance = new DomDocumentHandler($doc);
         }
@@ -37,7 +36,7 @@ final class DomDocumentHandlerTest extends TestCase
     public static function bingInstance(): DomDocumentHandler
     {
         if (!isset(self::$bingInstance)) {
-            $doc = new DOMDocument('1.0', 'utf-8');
+            $doc = new \DOMDocument('1.0', 'utf-8');
             $doc->load(self::wsdlBingPath());
             self::$bingInstance = new DomDocumentHandler($doc);
         }
@@ -48,7 +47,7 @@ final class DomDocumentHandlerTest extends TestCase
     public static function emptyInstance(): DomDocumentHandler
     {
         if (!isset(self::$emptyInstance)) {
-            $doc = new DOMDocument('1.0', 'utf-8');
+            $doc = new \DOMDocument('1.0', 'utf-8');
             @$doc->load(self::wsdlEmptyPath());
             self::$emptyInstance = new DomDocumentHandler($doc);
         }
@@ -59,7 +58,7 @@ final class DomDocumentHandlerTest extends TestCase
     public static function yandexDirectApiAdGroupsInstance(): DomDocumentHandler
     {
         if (!isset(self::$yandexDirectApiAdGroupsInstance)) {
-            $doc = new DOMDocument('1.0', 'utf-8');
+            $doc = new \DOMDocument('1.0', 'utf-8');
             $doc->load(self::wsdlYandexDirectApiAdGroupsPath());
             self::$yandexDirectApiAdGroupsInstance = new DomDocumentHandler($doc);
         }
@@ -70,7 +69,7 @@ final class DomDocumentHandlerTest extends TestCase
     public static function yandexDirectApiGeneralInstance(): DomDocumentHandler
     {
         if (!isset(self::$yandexDirectApiGeneralInstance)) {
-            $doc = new DOMDocument('1.0', 'utf-8');
+            $doc = new \DOMDocument('1.0', 'utf-8');
             $doc->load(self::wsdlYandexDirectApiGeneralPath());
             self::$yandexDirectApiGeneralInstance = new DomDocumentHandler($doc);
         }
@@ -78,7 +77,7 @@ final class DomDocumentHandlerTest extends TestCase
         return self::$yandexDirectApiGeneralInstance;
     }
 
-    public function testGetNodeByName()
+    public function testGetNodeByName(): void
     {
         $instance = self::bingInstance();
 
@@ -87,7 +86,7 @@ final class DomDocumentHandlerTest extends TestCase
         $this->assertNull($instance->getNodeByName('foo'));
     }
 
-    public function testGetNodesByName()
+    public function testGetNodesByName(): void
     {
         $instance = self::bingInstance();
 
@@ -95,7 +94,7 @@ final class DomDocumentHandlerTest extends TestCase
         $this->assertEmpty($instance->getNodesByName('foo'));
     }
 
-    public function testGetElementsByName()
+    public function testGetElementsByName(): void
     {
         $instance = self::bingInstance();
 
@@ -104,14 +103,14 @@ final class DomDocumentHandlerTest extends TestCase
         $this->assertEmpty($instance->getElementsByName('foo'));
     }
 
-    public function testGetElementByNameIsNull()
+    public function testGetElementByNameIsNull(): void
     {
         $instance = self::bingInstance();
 
         $this->assertNull($instance->getElementByName('foo'));
     }
 
-    public function testGetElementsByNameAndAttributes()
+    public function testGetElementsByNameAndAttributes(): void
     {
         $instance = self::bingInstance();
 
@@ -123,7 +122,7 @@ final class DomDocumentHandlerTest extends TestCase
         $this->assertContainsOnlyInstancesOf(ElementHandler::class, $parts);
     }
 
-    public function testGetElementsByNameAndAttributesFromDomNode()
+    public function testGetElementsByNameAndAttributesFromDomNode(): void
     {
         $instance = self::yandexDirectApiAdGroupsInstance();
         $xsd = self::yandexDirectApiGeneralInstance();
@@ -138,7 +137,7 @@ final class DomDocumentHandlerTest extends TestCase
         $this->assertContainsOnlyInstancesOf(ElementHandler::class, $elements);
     }
 
-    public function testGetElementByNameAndAttributes()
+    public function testGetElementByNameAndAttributes(): void
     {
         $instance = self::bingInstance();
 
@@ -149,7 +148,7 @@ final class DomDocumentHandlerTest extends TestCase
         $this->assertInstanceOf(ElementHandler::class, $part);
     }
 
-    public function testGetElementByNameAndAttributesContainingString()
+    public function testGetElementByNameAndAttributesContainingString(): void
     {
         $instance = self::bingInstance();
 
@@ -160,9 +159,9 @@ final class DomDocumentHandlerTest extends TestCase
         $this->assertInstanceOf(ElementHandler::class, $part);
     }
 
-    public function testInitRootElementWithException()
+    public function testInitRootElementWithException(): void
     {
-        $this->expectException(InvalidArgumentException::class);
+        $this->expectException(\InvalidArgumentException::class);
 
         self::emptyInstance();
     }

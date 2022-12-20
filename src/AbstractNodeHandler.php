@@ -4,42 +4,37 @@ declare(strict_types=1);
 
 namespace WsdlToPhp\DomHandler;
 
-use DOMElement;
-use DOMNode;
-use DOMNodeList;
-use Traversable;
-
 abstract class AbstractNodeHandler
 {
-    protected DOMNode $node;
+    protected \DOMNode $node;
 
     protected int $index;
 
     protected AbstractDomDocumentHandler $domDocumentHandler;
 
-    public function __construct(DOMNode $node, AbstractDomDocumentHandler $domDocumentHandler, int $index = 0)
+    public function __construct(\DOMNode $node, AbstractDomDocumentHandler $domDocumentHandler, int $index = 0)
     {
         $this->node = $node;
         $this->index = $index;
         $this->domDocumentHandler = $domDocumentHandler;
     }
 
-    public function getNode(): DOMNode
+    public function getNode(): \DOMNode
     {
         return $this->node;
     }
 
     /**
-     * @return DOMNodeList<DOMElement|DOMNode>
+     * @return \DOMNodeList<\DOMElement|\DOMNode>
      */
-    public function getChildNodes(): DOMNodeList
+    public function getChildNodes(): \DOMNodeList
     {
         return $this->getNode()->childNodes;
     }
 
     public function getParent(): ?AbstractNodeHandler
     {
-        if ($this->getNode()->parentNode instanceof DOMNode) {
+        if ($this->getNode()->parentNode instanceof \DOMNode) {
             return $this->getDomDocumentHandler()->getHandler($this->getNode()->parentNode);
         }
 
@@ -107,7 +102,7 @@ abstract class AbstractNodeHandler
      */
     public function getNodeValue()
     {
-        $nodeValue = trim($this->getNode()->nodeValue);
+        $nodeValue = trim((string) $this->getNode()->nodeValue);
         $nodeValue = str_replace([
             "\r",
             "\n",
@@ -137,11 +132,11 @@ abstract class AbstractNodeHandler
     }
 
     /**
-     * @param null|Traversable<DOMNode> $nodes
+     * @param null|\Traversable<\DOMNode> $nodes
      *
      * @return AbstractAttributeHandler[]|AbstractElementHandler[]|AbstractNodeHandler[]
      */
-    private function getHandlers(?Traversable $nodes): array
+    private function getHandlers(?\Traversable $nodes): array
     {
         if (is_null($nodes)) {
             return [];

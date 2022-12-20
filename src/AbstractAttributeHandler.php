@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace WsdlToPhp\DomHandler;
 
-use DOMAttr;
-
 class AbstractAttributeHandler extends AbstractNodeHandler
 {
     public const DEFAULT_VALUE_TYPE = 'string';
@@ -37,9 +35,9 @@ class AbstractAttributeHandler extends AbstractNodeHandler
 
     public const DEFAULT_OCCURRENCE_VALUE = 1;
 
-    public function getAttribute(): DOMAttr
+    public function getAttribute(): ?\DOMAttr
     {
-        return $this->getNode();
+        return $this->getNode() instanceof \DOMAttr ? $this->getNode() : null;
     }
 
     /**
@@ -82,8 +80,8 @@ class AbstractAttributeHandler extends AbstractNodeHandler
     /**
      * Returns the value with good type.
      *
-     * @param mixed       $value     the value
-     * @param null|string $knownType the value
+     * @param null|bool|float|int|string $value     the value
+     * @param null|string                $knownType the value expected type
      *
      * @return mixed
      */
@@ -99,20 +97,20 @@ class AbstractAttributeHandler extends AbstractNodeHandler
             'int',
             'integer',
         ], true))) {
-            return intval($value);
+            return (int) $value;
         }
         if (is_float($value) || (!is_null($value) && in_array($knownType, [
             'float',
             'double',
             'decimal',
         ], true))) {
-            return floatval($value);
+            return (float) $value;
         }
         if (is_bool($value) || (!is_null($value) && in_array($knownType, [
             'bool',
             'boolean',
         ], true))) {
-            return 'true' === $value || true === $value || 1 === $value || '1' === $value;
+            return 'true' === $value || true === $value || '1' === $value;
         }
 
         return $value;

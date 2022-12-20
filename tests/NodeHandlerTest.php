@@ -9,11 +9,12 @@ use WsdlToPhp\DomHandler\AbstractNodeHandler;
 
 /**
  * @internal
- * @coversDefaultClass
+ *
+ * @coversDefaultClass \WsdlToPhp\DomHandler\NodeHandler
  */
 final class NodeHandlerTest extends TestCase
 {
-    public function testGetName()
+    public function testGetName(): void
     {
         $domDocument = DomDocumentHandlerTest::bingInstance();
 
@@ -24,7 +25,7 @@ final class NodeHandlerTest extends TestCase
         $this->assertEquals('definitions', $domDocument->getRootElement()->getName());
     }
 
-    public function testGetNamespace()
+    public function testGetNamespace(): void
     {
         $domDocument = DomDocumentHandlerTest::bingInstance();
 
@@ -35,7 +36,7 @@ final class NodeHandlerTest extends TestCase
         $this->assertEquals('wsdl', $domDocument->getRootElement()->getNamespace());
     }
 
-    public function testHasAttributes()
+    public function testHasAttributes(): void
     {
         $domDocument = DomDocumentHandlerTest::bingInstance();
 
@@ -48,7 +49,7 @@ final class NodeHandlerTest extends TestCase
         $this->assertFalse($sequence->hasAttributes());
     }
 
-    public function testGetAttributes()
+    public function testGetAttributes(): void
     {
         $domDocument = DomDocumentHandlerTest::bingInstance();
 
@@ -65,7 +66,7 @@ final class NodeHandlerTest extends TestCase
         $this->assertCount(2, $schema->getAttributes());
     }
 
-    public function testHasChildren()
+    public function testHasChildren(): void
     {
         $domDocument = DomDocumentHandlerTest::bingInstance();
 
@@ -78,7 +79,7 @@ final class NodeHandlerTest extends TestCase
         $this->assertFalse($element->hasChildren());
     }
 
-    public function testGetChildren()
+    public function testGetChildren(): void
     {
         $domDocument = DomDocumentHandlerTest::bingInstance();
 
@@ -92,7 +93,7 @@ final class NodeHandlerTest extends TestCase
         $this->assertEmpty($element->getChildren());
     }
 
-    public function testGetParent()
+    public function testGetParent(): void
     {
         $domDocument = DomDocumentHandlerTest::bingInstance();
 
@@ -107,14 +108,14 @@ final class NodeHandlerTest extends TestCase
         $this->assertInstanceOf(AbstractNodeHandler::class, $domDocument->getRootElement()->getParent());
     }
 
-    public function testGetParentNull()
+    public function testGetParentNull(): void
     {
         $domDocument = DomDocumentHandlerTest::bingInstance();
 
         $this->assertNull($domDocument->getRootElement()->getParent()->getParent());
     }
 
-    public function testGetIndex()
+    public function testGetIndex(): void
     {
         $domDocument = DomDocumentHandlerTest::bingInstance();
 
@@ -123,14 +124,14 @@ final class NodeHandlerTest extends TestCase
         $this->assertSame(2, $children[2]->getIndex());
     }
 
-    public function testGetValue()
+    public function testGetValue(): void
     {
         $domDocument = DomDocumentHandlerTest::bingInstance();
 
         $this->assertSame('', $domDocument->getElementByName('complexType')->getValue());
     }
 
-    public function testGetValueNamespace()
+    public function testGetValueNamespace(): void
     {
         $domDocument = DomDocumentHandlerTest::bingInstance();
 
