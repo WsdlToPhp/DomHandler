@@ -169,6 +169,6 @@ abstract class AbstractElementHandler extends AbstractNodeHandler
 
     public function isRemovable(): bool
     {
-        return $this->isOptional() && $this->getNillable();
+        return $this->isOptional();
     }
 }
