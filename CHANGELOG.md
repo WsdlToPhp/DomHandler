@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 2.0.7 - 2026/06/16
+- pr #5 - WsdlToPhp/PackageGenerator#341 Change isRemovable to only check for minOccurs=0
+- pr #6 - upgrades: upgrade project
+
 ## 2.0.6 - 2022/03/24
 - Minor fix
 
