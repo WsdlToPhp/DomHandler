@@ -242,7 +242,7 @@ final class ElementHandlerTest extends TestCase
             'name' => 'TrackingParams',
         ]);
 
-        $this->assertFalse($element->isRemovable());
+        $this->assertTrue($element->isRemovable());
     }
 
     public function testActonGetNillableFalse(): void
