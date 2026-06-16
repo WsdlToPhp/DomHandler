@@ -1,18 +1,25 @@
-name: SonarCloud
+name: Sonars
 on:
     push:
         branches:
             - develop
             - feature/*
             - feat/*
+            - release/*
     pull_request:
         types: [ opened, synchronize, reopened ]
+concurrency: sonars
 jobs:
     sonarcloud:
-        name: SonarCloud
+        name: Sonars
         runs-on: ubuntu-latest
+        permissions:
+            contents: read
+            pull-requests: write
+            statuses: write
         steps:
-            -   uses: actions/checkout@v2
+            -   name: Checkout code
+                uses: actions/checkout@v3
                 with:
                     fetch-depth: 0
 
@@ -25,13 +32,22 @@ jobs:
             -   name: Install dependencies with composer
                 run: composer update --no-ansi --no-interaction --no-progress
 
-            -   name: Generate coverage report with phpunit/phpunit
+            -   name: Generate coverage report with phpunit
                 run: vendor/bin/phpunit --coverage-clover coverage.xml --log-junit report.xml
+
+            -   name: Monitor coverage
+                uses: slavcodev/coverage-monitor-action@v1
+                with:
+                    github_token: ${{ secrets.GITHUB_TOKEN }}
+                    coverage_path: coverage.xml
+                    threshold_alert: 95
+                    threshold_warning: 90
 
             -   name: Fix phpunit files paths
                 run: sed -i 's@'$GITHUB_WORKSPACE/'@''@g' coverage.xml report.xml
 
             -   name: SonarCloud Scan
-                uses: SonarSource/sonarcloud-github-action@master
+                uses: SonarSource/sonarqube-scan-action@v7
                 env:
+                    GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
                     SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}

@@ -20,6 +20,10 @@
         {
             "name": "phordijk",
             "role": "Contributor"
+        },
+        {
+            "name": "Andreas Allacher",
+            "role": "Contributor"
         }
     ],
     "require": {

@@ -10,8 +10,6 @@ use WsdlToPhp\DomHandler\NodeHandler;
 
 /**
  * @internal
- *
- * @coversDefaultClass \WsdlToPhp\DomHandler\DomDocumentHandler
  */
 final class DomDocumentHandlerTest extends TestCase
 {
