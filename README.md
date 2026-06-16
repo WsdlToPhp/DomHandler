@@ -40,6 +40,7 @@ Please see [CONTRIBUTING](.github/CONTRIBUTING.md) for details.
 
 Developers who helped on this project are listed in the [composer.json](composer.json#L8) file as `Contributor` and are:
 - [phordijk](https://github.com/phordijk)
+- [AndreasA](https://github.com/AndreasA)
 
 ## FAQ
 
